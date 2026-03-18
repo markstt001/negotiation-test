@@ -108,6 +108,12 @@
 </head>
 <body>
     <div class="container">
+        <!-- 顶部导航 -->
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;padding:10px;background:rgba(255,255,255,0.2);border-radius:8px;">
+            <div style="font-size:14px;color:white;font-weight:600;">🎯 采购谈判风格测试</div>
+            <button onclick="goToMyPage()" style="background:rgba(255,255,255,0.3);border:none;color:white;padding:8px 16px;border-radius:6px;cursor:pointer;font-size:14px;">👤 我的</button>
+        </div>
+        
         <!-- 首页 -->
         <div id="homePage">
             <div class="hero">
@@ -455,6 +461,76 @@
                 <button class="btn-share" onclick="generateAndShare()">📸 生成海报分享</button>
                 <button class="btn-retake" onclick="retakeTest()">🔄 重测</button>
             </div>
+            
+            <div style="margin-top:20px;padding-top:20px;border-top:2px solid #e0e0e0;">
+                <h3 style="text-align:center;color:#667eea;margin-bottom:15px;">👥 团队功能</h3>
+                <button class="btn-team" onclick="showJoinTeamModal()">👥 加入团队</button>
+                <button class="btn-team" style="background:#f0f0f0;color:#666;margin-top:10px;" onclick="createTeamFromResult()">📋 创建团队</button>
+            </div>
+        </div>
+        
+        <!-- 加入团队弹窗 -->
+        <div id="joinTeamModal" class="hidden" style="position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;z-index:1000;">
+            <div style="background:white;border-radius:16px;padding:30px;max-width:400px;width:90%;box-shadow:0 10px 40px rgba(0,0,0,0.3);">
+                <h2 style="text-align:center;color:#333;margin-bottom:20px;">👥 加入团队</h2>
+                <p style="color:#666;text-align:center;margin-bottom:20px;">输入团队邀请码，和同事一起对比谈判风格</p>
+                <input type="text" id="inviteCodeInput" placeholder="8 位邀请码（如：ABCD1234）" style="width:100%;padding:15px;border:2px solid #e0e0e0;border-radius:8px;font-size:18px;text-align:center;letter-spacing:2px;margin-bottom:20px;" maxlength="8">
+                <button class="btn-team" onclick="joinTeamWithCode()">✅ 加入团队</button>
+                <button class="btn-team" style="background:#f0f0f0;color:#666;margin-top:10px;" onclick="closeJoinTeamModal()">❌ 取消</button>
+            </div>
+        </div>
+        
+        <!-- 创建团队成功弹窗 -->
+        <div id="createTeamSuccessModal" class="hidden" style="position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;z-index:1000;">
+            <div style="background:white;border-radius:16px;padding:30px;max-width:400px;width:90%;box-shadow:0 10px 40px rgba(0,0,0,0.3);">
+                <h2 style="text-align:center;color:#333;margin-bottom:15px;">🎉 团队创建成功！</h2>
+                <div class="invite-code">
+                    <div style="font-size:14px;color:#666;margin-bottom:8px;">你的团队邀请码</div>
+                    <div class="code" id="newInviteCode">ABCD1234</div>
+                </div>
+                <p style="color:#666;text-align:center;margin:15px 0;">分享给同事，邀请他们加入你的团队</p>
+                <button class="btn-team" onclick="copyNewInviteCode()">📋 复制邀请码</button>
+                <button class="btn-team" style="background:#10b981;color:white;margin-top:10px;" onclick="viewMyTeam()">📊 查看我的团队</button>
+                <button class="btn-team" style="background:#f0f0f0;color:#666;margin-top:10px;" onclick="closeCreateTeamModal()">❌ 关闭</button>
+            </div>
+        </div>
+        
+        <!-- "我的"页面 -->
+        <div id="myPage" class="hidden">
+            <h2 style="text-align:center;margin-bottom:20px;">👤 我的</h2>
+            
+            <div class="team-card">
+                <h3>📊 我的测试结果</h3>
+                <div id="myResult" style="padding:15px;background:#f8f9ff;border-radius:8px;margin:10px 0;">
+                    <div style="display:flex;align-items:center;gap:15px;">
+                        <div style="font-size:40px;">🦉</div>
+                        <div>
+                            <div style="font-size:24px;font-weight:bold;color:#667eea;" id="myStyleCode">ARCD</div>
+                            <div style="color:#666;" id="myStyleName">战略架构师</div>
+                        </div>
+                    </div>
+                    <button class="btn-compare" style="margin-top:10px;" onclick="viewResultDetail()">查看详情 →</button>
+                </div>
+            </div>
+            
+            <div class="team-card">
+                <h3>👥 我的团队</h3>
+                <div id="myTeamInfo" style="padding:15px;background:#f8f9ff;border-radius:8px;margin:10px 0;">
+                    <p style="color:#666;" id="myTeamText">暂无团队</p>
+                    <button class="btn-team" id="createOrJoinBtn" onclick="showJoinTeamModal()">👥 加入团队</button>
+                </div>
+            </div>
+            
+            <div class="team-card">
+                <h3>⚙️ 设置</h3>
+                <div style="padding:10px;">
+                    <div style="padding:12px;border-bottom:1px solid #e0e0e0;">清除测试记录</div>
+                    <div style="padding:12px;border-bottom:1px solid #e0e0e0;">关于我们</div>
+                    <div style="padding:12px;color:#f59e0b;" onclick="clearAllData()">清除所有数据</div>
+                </div>
+            </div>
+            
+            <button class="btn-team" style="background:#f0f0f0;color:#666;" onclick="goHome()">🏠 返回首页</button>
         </div>
         
         <canvas id="posterCanvas" class="poster-canvas"></canvas>
@@ -466,6 +542,60 @@
         // 团队功能数据
         var currentTeam = null;
         var teamMembers = [];
+        var currentUserResult = null;
+
+        // 导航函数
+        function goHome() {
+            document.getElementById('homePage').classList.remove('hidden');
+            document.getElementById('testPage').classList.add('hidden');
+            document.getElementById('resultPage').classList.add('hidden');
+            document.getElementById('teamPage').classList.add('hidden');
+            document.getElementById('myPage').classList.add('hidden');
+        }
+
+        function goToMyPage() {
+            document.getElementById('homePage').classList.add('hidden');
+            document.getElementById('testPage').classList.add('hidden');
+            document.getElementById('resultPage').classList.add('hidden');
+            document.getElementById('teamPage').classList.add('hidden');
+            document.getElementById('myPage').classList.remove('hidden');
+            updateMyPage();
+        }
+
+        function updateMyPage() {
+            // 加载我的测试结果
+            var savedResult = localStorage.getItem('myTestResult');
+            if (savedResult) {
+                currentUserResult = JSON.parse(savedResult);
+                document.getElementById('myStyleCode').textContent = currentUserResult.code;
+                document.getElementById('myStyleName').textContent = currentUserResult.name;
+                document.querySelector('#myResult div:first-child div:first-child').textContent = currentUserResult.animal;
+            }
+            
+            // 加载我的团队
+            var savedTeam = localStorage.getItem('currentTeam');
+            if (savedTeam) {
+                currentTeam = JSON.parse(savedTeam);
+                document.getElementById('myTeamText').innerHTML = '<strong>团队名称：</strong>' + currentTeam.name + '<br><strong>邀请码：</strong>' + currentTeam.inviteCode;
+                document.getElementById('createOrJoinBtn').textContent = '📊 查看团队';
+                document.getElementById('createOrJoinBtn').onclick = viewMyTeam;
+            } else {
+                document.getElementById('myTeamText').textContent = '暂无团队';
+                document.getElementById('createOrJoinBtn').textContent = '👥 加入团队';
+                document.getElementById('createOrJoinBtn').onclick = showJoinTeamModal;
+            }
+        }
+
+        function viewResultDetail() {
+            document.getElementById('myPage').classList.add('hidden');
+            document.getElementById('resultPage').classList.remove('hidden');
+        }
+
+        function viewMyTeam() {
+            document.getElementById('myPage').classList.add('hidden');
+            document.getElementById('teamPage').classList.remove('hidden');
+            switchTeamTabDirect('dashboard');
+        }
 
         // 团队功能函数
         function goToTeam() {
@@ -486,9 +616,117 @@
             // 显示目标 section
             document.getElementById('team' + tab.charAt(0).toUpperCase() + tab.slice(1)).classList.remove('hidden');
             // 设置按钮 active
-            event.target.classList.add('active');
+            if (event && event.target) {
+                event.target.classList.add('active');
+            }
         }
 
+        function switchTeamTabDirect(tab) {
+            // 隐藏所有 section
+            document.querySelectorAll('.team-section').forEach(function(el) {
+                el.classList.add('hidden');
+            });
+            // 移除所有按钮 active 状态
+            document.querySelectorAll('.team-nav-btn').forEach(function(btn) {
+                btn.classList.remove('active');
+            });
+            
+            // 显示目标 section
+            document.getElementById('team' + tab.charAt(0).toUpperCase() + tab.slice(1)).classList.remove('hidden');
+            // 设置第一个按钮为 active
+            document.querySelector('.team-nav-btn').classList.add('active');
+        }
+
+        // 从结果页创建团队
+        function createTeamFromResult() {
+            showCreateTeamSuccessModal();
+        }
+
+        function showCreateTeamSuccessModal() {
+            // 生成邀请码
+            var chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+            var code = '';
+            for (var i = 0; i < 8; i++) {
+                code += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            
+            currentTeam = {
+                name: '我的团队',
+                leader: currentUserResult ? currentUserResult.code : '用户',
+                inviteCode: code,
+                createdAt: new Date().toISOString()
+            };
+            
+            localStorage.setItem('currentTeam', JSON.stringify(currentTeam));
+            document.getElementById('newInviteCode').textContent = code;
+            document.getElementById('createTeamSuccessModal').classList.remove('hidden');
+        }
+
+        function copyNewInviteCode() {
+            var code = document.getElementById('newInviteCode').textContent;
+            navigator.clipboard.writeText(code).then(function() {
+                alert('✅ 邀请码已复制：' + code);
+            });
+        }
+
+        function closeCreateTeamModal() {
+            document.getElementById('createTeamSuccessModal').classList.add('hidden');
+        }
+
+        // 显示加入团队弹窗
+        function showJoinTeamModal() {
+            document.getElementById('joinTeamModal').classList.remove('hidden');
+            document.getElementById('inviteCodeInput').value = '';
+            document.getElementById('inviteCodeInput').focus();
+        }
+
+        function closeJoinTeamModal() {
+            document.getElementById('joinTeamModal').classList.add('hidden');
+        }
+
+        // 通过邀请码加入团队
+        function joinTeamWithCode() {
+            var code = document.getElementById('inviteCodeInput').value.trim().toUpperCase();
+            
+            if (!code || code.length !== 8) {
+                alert('请输入 8 位邀请码');
+                return;
+            }
+            
+            // 模拟加入团队（实际应该调用 API 验证）
+            currentTeam = {
+                name: '邀请团队-' + code,
+                leader: '团队长',
+                inviteCode: code,
+                joinedAt: new Date().toISOString()
+            };
+            
+            localStorage.setItem('currentTeam', JSON.stringify(currentTeam));
+            
+            // 模拟团队成员
+            teamMembers = [
+                { name: '团队长', style: 'ARCD', styleName: '战略架构师', animal: '🦉', completed: true },
+                { name: '张三', style: 'ATBD', styleName: '果断执行者', animal: '🦅', completed: true },
+                { name: '李四', style: 'ARCP', styleName: '关系建筑师', animal: '🐬', completed: true }
+            ];
+            
+            // 如果有当前用户结果，添加自己
+            if (currentUserResult) {
+                teamMembers.push({
+                    name: '我',
+                    style: currentUserResult.code,
+                    styleName: currentUserResult.name,
+                    animal: currentUserResult.animal,
+                    completed: true
+                });
+            }
+            
+            closeJoinTeamModal();
+            alert('✅ 加入团队成功！');
+            viewMyTeam();
+        }
+
+        // 原有的创建团队函数（从团队页面）
         function createTeam() {
             var teamName = document.getElementById('teamNameInput').value.trim();
             var leaderName = document.getElementById('teamLeaderInput').value.trim();
@@ -743,6 +981,15 @@
             document.getElementById('testPage').classList.add('hidden');
             document.getElementById('resultPage').classList.remove('hidden');
             var style = styles[code];
+            
+            // 保存用户结果到 localStorage
+            currentUserResult = {
+                code: code,
+                name: style.name,
+                animal: style.animal,
+                style: style
+            };
+            localStorage.setItem('myTestResult', JSON.stringify(currentUserResult));
             
             // 基本信息
             document.getElementById('animal').textContent = style.animal;
@@ -1113,6 +1360,16 @@
         function updateNav() {
             document.getElementById('prevBtn').disabled = currentIndex === 0;
             document.getElementById('nextBtn').innerHTML = currentIndex === 27 ? '查看结果 →' : '下一题 →';
+        }
+
+        function clearAllData() {
+            if (confirm('确定要清除所有数据吗？\n\n这将删除：\n- 测试结果\n- 团队信息\n- 所有历史记录')) {
+                localStorage.removeItem('myTestResult');
+                localStorage.removeItem('currentTeam');
+                localStorage.removeItem('answers');
+                alert('✅ 数据已清除！');
+                location.reload();
+            }
         }
 
     </script>
