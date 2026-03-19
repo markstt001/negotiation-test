@@ -439,6 +439,7 @@
             <div class="section">
                 <div class="section-title"><span class="icon">📊</span> 个性化解读</div>
                 <div id="personalizedInterpretation" style="padding:15px;background:#f8f9ff;border-radius:8px;margin:10px 0;"></div>
+                <div id="mbtiInsight" style="padding:15px;background:linear-gradient(135deg,#f0f4ff,#e8ecff);border-left:4px solid #667eea;border-radius:6px;margin:15px 0;font-size:14px;line-height:1.7;color:#333;"></div>
                 <div id="overallComment" style="padding:15px;background:linear-gradient(135deg,#667eea,#764ba2);color:white;border-radius:8px;margin-top:10px;font-size:14px;line-height:1.6;"></div>
             </div>
             
@@ -491,7 +492,6 @@
             
             <div class="section">
                 <div class="section-title"><span class="icon">🏷️</span> 神秘标签</div>
-                <div style="font-size:13px;color:#999;margin-bottom:10px;">每次测试随机显示，看看你今天抽到什么</div>
                 <div class="tags" id="tags" style="display:flex;flex-wrap:wrap;gap:10px;"></div>
             </div>
             
@@ -572,7 +572,7 @@
 
     <script src="questions-v4.js"></script>
     <script src="styles-v2.js"></script>
-    <script src="personalized-interpretation-v2.js"></script>
+    <script src="personalized-interpretation-v3.js"></script>
     <script src="celebrity-stories.js"></script>
     <script src="mystery-tags.js"></script>
     <script src="enhanced-weaknesses.js"></script>
@@ -1179,6 +1179,12 @@
                     '</div>' +
                     '</div>';
                 document.getElementById('personalizedInterpretation').innerHTML = interpHtml;
+                
+                // MBTI 人性洞察
+                if (typeof generateMBTIInsight !== 'undefined') {
+                    var mbtiText = generateMBTIInsight(code, dimensionScores);
+                    document.getElementById('mbtiInsight').innerHTML = '<strong style="font-size:15px;color:#667eea;margin-bottom:8px;display:block;">🔮 内心洞察</strong>' + mbtiText;
+                }
                 
                 // 综合评语
                 if (typeof generateOverallComment !== 'undefined') {
