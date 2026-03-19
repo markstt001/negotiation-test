@@ -421,9 +421,8 @@
                 <div class="role" id="role">战略策划者</div>
                 <div class="result-stats">
                     <div class="result-stat" style="width:100%;">
-                        <div class="result-stat-label" style="margin-bottom:8px;">💡 核心价值</div>
-                        <div id="coreValue" style="font-size:14px;line-height:1.6;margin-bottom:8px;"></div>
-                        <div class="result-stat-value" id="saving" style="font-size:15px;color:#667eea;font-weight:600;">15-25%</div>
+                        <div class="result-stat-label" style="margin-bottom:5px;">🎯 你的独特价值</div>
+                        <div id="coreValueDesc" style="font-size:13px;line-height:1.6;color:#666;"></div>
                     </div>
                 </div>
             </div>
@@ -1032,11 +1031,10 @@
             document.getElementById('name').textContent = style.name;
             document.getElementById('role').textContent = style.role;
             
-            // 核心价值（替换年省潜力）
+            // 独特价值描述（仅保留描述，去掉标题和年省潜力）
             if (typeof getCoreValue !== 'undefined') {
                 var coreValue = getCoreValue(code);
-                document.getElementById('coreValue').innerHTML = '<div style="font-size:16px;font-weight:600;color:#667eea;margin-bottom:5px;">' + coreValue.title + '</div><div style="font-size:13px;color:#666;">' + coreValue.desc + '</div>';
-                document.getElementById('saving').textContent = coreValue.value;
+                document.getElementById('coreValueDesc').textContent = coreValue.desc;
             }
             
             // 稀有度（仅真正稀有时显示）
