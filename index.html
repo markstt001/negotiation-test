@@ -472,10 +472,7 @@
             
             <div class="section">
                 <div class="section-title"><span class="icon">🏆</span> 名人对标</div>
-                <div class="item">
-                    <div class="item-label" id="celebrity"></div>
-                    <div class="item-text" id="celebrityDesc"></div>
-                </div>
+                <div id="celebrityStory" style="background:white;padding:20px;border-radius:8px;border-left:4px solid #667eea;margin:10px 0;"></div>
             </div>
             
             <div class="section">
@@ -561,6 +558,7 @@
     <script src="questions-v2.js"></script>
     <script src="styles-v2.js"></script>
     <script src="personalized-interpretation.js"></script>
+    <script src="celebrity-stories.js"></script>
     <script>
         // 团队功能数据
         var currentTeam = null;
@@ -1104,8 +1102,15 @@
                 quotesContainer.appendChild(div);
             }
             
-            // 名人对标
-            document.getElementById('celebrity').textContent = style.celebrity + ' · ' + style.celebrityDesc;
+            // 名人对标（故事化）
+            if (typeof getCelebrityStory !== 'undefined') {
+                var celebrityStory = getCelebrityStory(code);
+                var storyHtml = '<div style="font-size:16px;margin-bottom:15px;"><strong style="font-size:18px;color:#667eea;">' + celebrityStory.name + '</strong> <span style="color:#999;">· ' + celebrityStory.title + '</span></div>' +
+                    '<div style="font-size:14px;color:#333;line-height:1.8;margin-bottom:15px;">' + celebrityStory.story + '</div>' +
+                    '<div style="font-size:13px;color:#999;border-top:1px solid #e0e0e0;padding-top:12px;">' + celebrityStory.scene + '</div>' +
+                    '<div style="font-size:14px;color:#667eea;font-weight:600;margin-top:12px;">' + celebrityStory.aspiration + '</div>';
+                document.getElementById('celebrityStory').innerHTML = storyHtml;
+            }
             
             // 个性化解读
             if (typeof generatePersonalizedInterpretation !== 'undefined') {
