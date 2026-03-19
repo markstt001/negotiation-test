@@ -5,7 +5,7 @@ var styles = {
     ARCD: {
         animal: '🦉',
         name: '战略架构师',
-        role: '战略策划者',
+        role: '老板最放心的决策顾问',
         saving: '15-25%',
         rarity: '约 5%',
         // === 新增核心模块 ===
@@ -46,7 +46,7 @@ var styles = {
     ARCP: {
         animal: '🐬',
         name: '关系建筑师',
-        role: '信任建立者',
+        role: '供应商愿意给底价的自己人',
         saving: '10-18%',
         rarity: '约 8%',
         strengths: [
@@ -85,7 +85,7 @@ var styles = {
     ARBD: {
         animal: '🐢',
         name: '谨慎守护者',
-        role: '风险管控者',
+        role: '合同里的"找茬专家"',
         saving: '8-15%',
         rarity: '约 7%',
         strengths: [
@@ -124,7 +124,7 @@ var styles = {
     ARBP: {
         animal: '🐑',
         name: '温和协调者',
-        role: '共识促成者',
+        role: '团队里的"情绪稳定器"',
         saving: '5-12%',
         rarity: '约 10%',
         strengths: [
@@ -163,7 +163,7 @@ var styles = {
     ATCD: {
         animal: '🐜',
         name: '效率优化师',
-        role: '流程专家',
+        role: '让采购效率翻倍的系统架构师',
         saving: '12-20%',
         rarity: '约 12%',
         strengths: [
@@ -202,7 +202,7 @@ var styles = {
     ATCP: {
         animal: '🦎',
         name: '数据驱动者',
-        role: '量化分析师',
+        role: '让成本透明化的"数据侦探"',
         saving: '10-18%',
         rarity: '约 9%',
         strengths: [
@@ -241,7 +241,7 @@ var styles = {
     ATBD: {
         animal: '🦅',
         name: '果断执行者',
-        role: '结果导向者',
+        role: '老板说降本 15% 就真的 15%',
         saving: '15-22%',
         rarity: '约 8%',
         strengths: [
@@ -280,7 +280,7 @@ var styles = {
     ATBP: {
         animal: '🐴',
         name: '团队推动者',
-        role: '项目管理者',
+        role: '再复杂的项目都能落地',
         saving: '10-16%',
         rarity: '约 11%',
         strengths: [
@@ -319,7 +319,7 @@ var styles = {
     IRCD: {
         animal: '🦊',
         name: '创新探索者',
-        role: '变革推动者',
+        role: '能看到别人看不到的机会',
         saving: '12-20%',
         rarity: '约 6%',
         strengths: [
@@ -358,7 +358,7 @@ var styles = {
     IRCP: {
         animal: '🐕',
         name: '社交联结者',
-        role: '人脉拓展者',
+        role: '整个产业链都欠他人情',
         saving: '8-15%',
         rarity: '约 10%',
         strengths: [
@@ -397,7 +397,7 @@ var styles = {
     IRBD: {
         animal: '🦁',
         name: '风险投资者',
-        role: '机会赌手',
+        role: '敢在别人不敢时下注',
         saving: '15-30%',
         rarity: '约 4%',
         strengths: [
@@ -436,7 +436,7 @@ var styles = {
     IRBP: {
         animal: '🦜',
         name: '魅力影响者',
-        role: '说服艺术家',
+        role: '靠气场就能让对手让步',
         saving: '10-18%',
         rarity: '约 7%',
         strengths: [
@@ -475,7 +475,7 @@ var styles = {
     ITCD: {
         animal: '🦈',
         name: '市场洞察者',
-        role: '趋势分析师',
+        role: '能预判明年价格走势的人',
         saving: '12-22%',
         rarity: '约 6%',
         strengths: [
@@ -514,7 +514,7 @@ var styles = {
     ITCP: {
         animal: '🐆',
         name: '机会捕捉者',
-        role: '敏捷反应者',
+        role: '紧急采购时的"救火队长"',
         saving: '10-20%',
         rarity: '约 7%',
         strengths: [
@@ -553,7 +553,7 @@ var styles = {
     ITBD: {
         animal: '🐲',
         name: '快速决策者',
-        role: '直觉行动派',
+        role: '5 分钟内敢拍板的人',
         saving: '12-18%',
         rarity: '约 5%',
         strengths: [
@@ -592,7 +592,7 @@ var styles = {
     ITBP: {
         animal: '🐙',
         name: '灵活适应者',
-        role: '变通专家',
+        role: '在任何环境都能活得很好',
         saving: '8-15%',
         rarity: '约 9%',
         strengths: [
