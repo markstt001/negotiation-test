@@ -572,7 +572,7 @@
         <canvas id="posterCanvas" class="poster-canvas"></canvas>
     </div>
 
-    <script src="questions-v3.js"></script>
+    <script src="questions-v4.js"></script>
     <script src="styles-v2.js"></script>
     <script src="personalized-interpretation-v2.js"></script>
     <script src="celebrity-stories.js"></script>
@@ -937,7 +937,8 @@
                 div.className = 'option';
                 if (answers[currentIndex] === opt.score) div.classList.add('selected');
                 div.onclick = (function(o) { return function() { selectOption(o.dim); }; })(opt);
-                div.innerHTML = '<div class="option-text">' + opt.text + '</div>';
+                var labels = ['A.', 'B.', 'C.', 'D.'];
+                div.innerHTML = '<div class="option-label">' + labels[i] + '</div><div class="option-text">' + opt.text + '</div>';
                 container.appendChild(div);
             }
             updateNav();
