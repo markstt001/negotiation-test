@@ -41,11 +41,11 @@
         .stat-num { font-size: 32px; font-weight: bold; color: #667eea; }
         .stat-label { font-size: 12px; color: #999; }
         .btn-start { display: block; width: 100%; padding: 16px; background: linear-gradient(90deg, #667eea, #764ba2); color: white; border: none; border-radius: 12px; font-size: 17px; font-weight: 600; cursor: pointer; margin-top: 25px; -webkit-appearance: none; }
-        .progress { background: #e0e0e0; border-radius: 10px; height: 6px; margin-bottom: 15px; overflow: hidden; }
+        .progress { background: #e0e0e0; border-radius: 10px; height: 8px; margin-bottom: 12px; overflow: hidden; }
         .progress-bar { background: linear-gradient(90deg, #667eea, #764ba2); height: 100%; width: 3.57%; transition: width 0.3s; }
-        .progress-text { text-align: center; color: #666; font-size: 13px; margin-bottom: 15px; }
-        .milestone-feedback { background: linear-gradient(135deg, #10b981, #059669); color: white; padding: 8px 16px; border-radius: 20px; margin: 10px auto; text-align: center; font-weight: 600; font-size: 13px; display: inline-block; animation: fadeInOut 3s; position: relative; z-index: 100; }
-        @keyframes fadeInOut { 0% { opacity: 0; transform: translateY(-10px); } 20% { opacity: 1; transform: translateY(0); } 80% { opacity: 1; transform: translateY(0); } 100% { opacity: 0; transform: translateY(-10px); } }
+        .progress-bar.milestone { background: linear-gradient(90deg, #10b981, #059669); }
+        .progress-text { text-align: center; color: #666; font-size: 13px; margin-bottom: 12px; }
+        .progress-text strong { color: #667eea; }
         .question-scene { font-size: 13px; color: #667eea; background: #f0f4ff; padding: 8px 12px; border-radius: 6px; margin-bottom: 12px; font-weight: 600; }
         .question { font-size: 15px; font-weight: 600; color: #333; margin-bottom: 20px; line-height: 1.4; }
         .question strong { font-weight: 700; color: #667eea; }
@@ -178,7 +178,6 @@
         <div id="testPage" class="hidden">
             <div class="progress"><div class="progress-bar" id="progressBar"></div></div>
             <div class="progress-text" id="progressText">1 / 28</div>
-            <div id="milestoneFeedback" class="milestone-feedback hidden"></div>
             <div class="question" id="questionText" style="margin-top:5px;">加载中...</div>
             <div class="options" id="optionsContainer"></div>
             <div class="nav-buttons">
@@ -957,57 +956,10 @@
                 dimensionScores[selectedOpt.dim] = (dimensionScores[selectedOpt.dim] || 0) + 1;
             }
             
-            // 里程碑反馈（每 7 题）
-            if ((currentIndex + 1) % 7 === 0 && currentIndex < 27) {
-                showMilestoneFeedback(currentIndex + 1);
-            } else {
-                setTimeout(function() {
-                    if (currentIndex < 27) nextQuestion();
-                }, 300);
-            }
-        }
-        
-        function showMilestoneFeedback(questionNum) {
-            var feedbackEl = document.getElementById('milestoneFeedback');
-            var dimensionName = '';
-            var score = 0;
-            var stars = '';
-            
-            if (questionNum === 7) {
-                var total = dimensionScores.A + dimensionScores.I;
-                score = total > 0 ? (dimensionScores.A / total) : 0.5;
-                dimensionName = '决策风格';
-            } else if (questionNum === 14) {
-                var total = dimensionScores.R + dimensionScores.T;
-                score = total > 0 ? (dimensionScores.R / total) : 0.5;
-                dimensionName = '关系导向';
-            } else if (questionNum === 21) {
-                var total = dimensionScores.C + dimensionScores.B;
-                score = total > 0 ? (dimensionScores.C / total) : 0.5;
-                dimensionName = '风险态度';
-            }
-            
-            // 转换为星级（0-5 星，基于得分比例，越接近 0.5 越均衡星越多）
-            var deviation = Math.abs(score - 0.5) * 2; // 0=完全均衡，1=极度偏向
-            var starCount = Math.round((1 - deviation) * 5); // 5 星到 0 星
-            if (starCount < 0) starCount = 0;
-            if (starCount > 5) starCount = 5;
-            
-            stars = '';
-            for (var i = 0; i < 5; i++) {
-                stars += i < starCount ? '⭐' : '☆';
-            }
-            
-            var trendText = score > 0.5 ? '偏强' : (score < 0.5 ? '偏弱' : '均衡');
-            
-            feedbackEl.innerHTML = '<div style="font-size:16px;margin-bottom:8px;">✓ ' + dimensionName + '维度完成</div>' +
-                '<div style="font-size:24px;">' + stars + '</div>' +
-                '<div style="font-size:12px;opacity:0.9;">(' + trendText + ')</div>';
-            
-            feedbackEl.classList.remove('hidden');
+            // 自动下一题（0.3 秒后）
             setTimeout(function() {
-                feedbackEl.classList.add('hidden');
-            }, 3000); // 3 秒自动消失
+                if (currentIndex < 27) nextQuestion();
+            }, 300);
         }
 
         function prevQuestion() {
@@ -1245,9 +1197,13 @@
             var height = canvas.height;
             var centerX = width / 2;
             var centerY = height / 2;
-            var radius = Math.min(width, height) / 2 - 30;
+            var radius = Math.min(width, height) / 2 - 40;
             
             ctx.clearRect(0, 0, width, height);
+            
+            // 画白色背景
+            ctx.fillStyle = '#ffffff';
+            ctx.fillRect(0, 0, width, height);
             
             var dimensions = [
                 {name:'分析型',score:0,color:'#4CAF50'},
@@ -1275,9 +1231,9 @@
             dimensions[6].score = Math.min(100, (scores.D / 7) * 100);
             dimensions[7].score = Math.min(100, (scores.P / 7) * 100);
             
-            // 绘制背景网格（更清晰）
-            ctx.strokeStyle = '#d0d0d0';
-            ctx.lineWidth = 1.5;
+            // 绘制背景网格（更深色）
+            ctx.strokeStyle = '#b0b0b0';
+            ctx.lineWidth = 2;
             for (var level = 1; level <= 4; level++) {
                 var r = (radius / 4) * level;
                 ctx.beginPath();
@@ -1292,7 +1248,7 @@
                 ctx.stroke();
             }
             
-            // 绘制辐射线（更明显）
+            // 绘制辐射线（更深色）
             for (var i = 0; i < 8; i++) {
                 var angle = (Math.PI * 2 / 8) * i - Math.PI / 2;
                 var x = centerX + Math.cos(angle) * radius;
@@ -1300,12 +1256,12 @@
                 ctx.beginPath();
                 ctx.moveTo(centerX, centerY);
                 ctx.lineTo(x, y);
-                ctx.strokeStyle = '#c0c0c0';
-                ctx.lineWidth = 1.5;
+                ctx.strokeStyle = '#a0a0a0';
+                ctx.lineWidth = 2;
                 ctx.stroke();
             }
             
-            // 绘制数据多边形（更鲜艳）
+            // 绘制数据多边形（更鲜艳 + 描边）
             ctx.beginPath();
             for (var i = 0; i < 8; i++) {
                 var angle = (Math.PI * 2 / 8) * i - Math.PI / 2;
@@ -1316,22 +1272,26 @@
                 else ctx.lineTo(x, y);
             }
             ctx.closePath();
-            ctx.fillStyle = 'rgba(102, 126, 234, 0.5)';
+            ctx.fillStyle = 'rgba(102, 126, 234, 0.6)';
             ctx.fill();
-            ctx.strokeStyle = '#667eea';
-            ctx.lineWidth = 3;
+            ctx.strokeStyle = '#5a67d8';
+            ctx.lineWidth = 4;
             ctx.stroke();
             
-            // 绘制维度标签
+            // 绘制维度标签（更大更清晰）
             for (var i = 0; i < 8; i++) {
                 var angle = (Math.PI * 2 / 8) * i - Math.PI / 2;
-                var r = radius + 20;
+                var r = radius + 25;
                 var x = centerX + Math.cos(angle) * r;
                 var y = centerY + Math.sin(angle) * r;
-                ctx.fillStyle = '#333';
-                ctx.font = 'bold 12px sans-serif';
+                ctx.fillStyle = '#000000';
+                ctx.font = 'bold 14px -apple-system, BlinkMacSystemFont, sans-serif';
                 ctx.textAlign = 'center';
                 ctx.textBaseline = 'middle';
+                // 白色描边让文字更清晰
+                ctx.strokeStyle = '#ffffff';
+                ctx.lineWidth = 3;
+                ctx.strokeText(dimensions[i].name, x, y);
                 ctx.fillText(dimensions[i].name, x, y);
             }
         }
@@ -1535,8 +1495,17 @@
 
         function updateProgress() {
             var pct = ((currentIndex + 1) / 28) * 100;
-            document.getElementById('progressBar').style.width = pct + '%';
-            document.getElementById('progressText').textContent = (currentIndex + 1) + ' / 28';
+            var progressBar = document.getElementById('progressBar');
+            progressBar.style.width = pct + '%';
+            
+            // 每 7 题进度条变色（不弹窗）
+            if ((currentIndex + 1) % 7 === 1 && currentIndex > 0) {
+                progressBar.classList.add('milestone');
+            }
+            
+            // 进度文字提示阶段
+            var stage = Math.floor(currentIndex / 7) + 1;
+            document.getElementById('progressText').innerHTML = '<strong>' + (currentIndex + 1) + '</strong> / 28 · 第 ' + stage + ' 阶段/共 4 阶段';
         }
 
         function updateNav() {
