@@ -14,6 +14,14 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <title>采购谈判风格测试 2.0 - 发现你的谈判超能力</title>
     <link rel="stylesheet" href="mobile-optimization.css">
+    
+    <!-- 微信分享优化 -->
+    <meta property="og:title" content="我的采购谈判风格测试">
+    <meta property="og:description" content="测测你的谈判风格是什么？是战略架构师还是关系建筑师？看看我们匹配度如何！">
+    <meta property="og:image" content="https://yugao2.github.io/negotiation-test/og-image.png">
+    <meta property="og:url" content="https://yugao2.github.io/negotiation-test/">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="description" content="测测你的谈判风格是什么？已有 1,234 位采购参与测试，看看我们匹配度如何！">
     <style>
         /* 移动端优先适配 */
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -495,6 +503,10 @@
             <div class="btn-group">
                 <button class="btn-share" onclick="generateAndShare()">📸 生成海报分享</button>
                 <button class="btn-retake" onclick="retakeTest()">🔄 重测</button>
+            </div>
+            
+            <div style="margin-top:15px;text-align:center;">
+                <button onclick="previewPoster()" style="background:#f0f0f0;color:#666;border:none;padding:10px 20px;border-radius:8px;font-size:13px;cursor:pointer;">👀 预览海报</button>
             </div>
             
             <div style="margin-top:20px;padding-top:20px;border-top:2px solid #e0e0e0;">
@@ -1319,7 +1331,18 @@
             }
         }
 
-        function generateAndShare() {
+        function previewPoster() {
+            // 生成海报并显示在新窗口
+            var code = document.getElementById('code').textContent;
+            var style = styles[code];
+            var canvas = document.getElementById('posterCanvas');
+            var ctx = canvas.getContext('2d');
+            
+            // 调用生成逻辑
+            generateAndShare(true);
+        }
+        
+        function generateAndShare(previewOnly) {
             var code = document.getElementById('code').textContent;
             var style = styles[code];
             var canvas = document.getElementById('posterCanvas');
@@ -1439,53 +1462,42 @@
             ctx.font = '11px sans-serif';
             ctx.fillText('优链学堂 · 供应链首席训练导师', 300, 785);
             
-            // 触发下载 + 分享文案
-            try {
-                var link = document.createElement('a');
-                link.download = '我的谈判风格-' + code + '.png';
-                link.href = canvas.toDataURL('image/png');
-                link.click();
-                
-                // 生成分享文案
-                var shareText = '我是 ' + code + ' ' + style.name + '，击败了 ' + beatEl.textContent + '% 的采购同行！\n\n' + style.role + '\n\n快来测测你的谈判风格，看看我们匹配度如何～';
-                
-                if (navigator.clipboard) {
-                    navigator.clipboard.writeText(shareText).then(function() {
-                        alert('✅ 海报已保存！\n\n分享文案已复制，可直接粘贴发送：\n\n' + shareText);
-                    });
-                } else {
-                    alert('✅ 海报已保存！\n\n分享文案：\n\n' + shareText);
-                }
-            } catch(e) {
-                alert('海报已生成，请截图保存');
-            }
-            
+            // 触发下载或预览
             try {
                 var dataUrl = canvas.toDataURL('image/png');
-                var link = document.createElement('a');
-                link.download = '我的谈判风格-'+code+'.png';
-                link.href = dataUrl;
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
                 
-                setTimeout(function() {
-                    var text = '我是'+style.animal+style.name+'（'+code+'）！击败了'+style.beatPercent+'%的采购同行！我的谈判金句："'+style.quotes[0].text+'" 测测你是什么风格？';
-                    if (navigator.share) {
-                        navigator.share({title:'我的谈判风格',text:text,url:window.location.href}).catch(function(e){console.log('分享取消');});
-                    } else {
-                        navigator.clipboard.writeText(text+' '+window.location.href).then(function(){
-                            alert('🎉 海报已下载到相册！\n分享文案已复制，快去朋友圈炫耀吧！');
-                        }).catch(function(){
-                            alert('🎉 海报已下载到相册！\n长按图片即可分享～');
-                        });
-                    }
-                }, 800);
+                if (previewOnly) {
+                    // 预览模式：在新窗口显示
+                    var newWindow = window.open();
+                    newWindow.document.write('<img src="' + dataUrl + '" style="max-width:100%;">');
+                    newWindow.document.write('<div style="text-align:center;padding:20px;"><button onclick="window.print()" style="padding:10px 20px;font-size:16px;">🖨️ 打印/保存</button></div>');
+                } else {
+                    // 下载模式
+                    var link = document.createElement('a');
+                    link.download = '我的谈判风格-' + code + '.png';
+                    link.href = dataUrl;
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                    
+                    // 生成分享文案
+                    var shareText = '我是 ' + code + ' ' + style.name + '，击败了 ' + beatEl.textContent + '% 的采购同行！\n\n' + style.role + '\n\n快来测测你的谈判风格，看看我们匹配度如何～';
+                    
+                    setTimeout(function() {
+                        if (navigator.clipboard) {
+                            navigator.clipboard.writeText(shareText).then(function() {
+                                alert('🎉 海报已保存到相册！\n\n分享文案已复制，可直接粘贴发送朋友圈：\n\n' + shareText);
+                            }).catch(function() {
+                                alert('🎉 海报已保存！\n长按图片即可分享～');
+                            });
+                        } else {
+                            alert('🎉 海报已保存！\n分享文案：\n\n' + shareText);
+                        }
+                    }, 500);
+                }
             } catch(e) {
                 console.error('海报生成失败:', e);
-                var text = '我是'+style.animal+style.name+'（'+code+'）！击败了'+style.beatPercent+'%的采购同行！';
-                navigator.clipboard.writeText(text+' '+window.location.href);
-                alert('海报生成失败，已复制分享文案。\n请截图分享结果页面～');
+                alert('海报生成失败，请截图保存结果页面～');
             }
         }
 
