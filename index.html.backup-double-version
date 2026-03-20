@@ -538,60 +538,46 @@
 
         <!-- 结果页 -->
         <div id="resultPage" class="hidden">
-            <!-- 快速版：默认显示 -->
-            <div id="quickVersion">
-                <div class="result-header">
-                    <div class="animal" id="animal">🦉</div>
-                    <div class="code" id="code">ARCD</div>
-                    <div class="name" id="name">战略架构师</div>
-                    <div class="role" id="role">战略策划者</div>
-                    <div class="result-stats">
-                        <div class="result-stat" style="width:100%;">
-                            <div class="result-stat-label" style="margin-bottom:5px;">🎯 你的独特价值</div>
-                            <div id="coreValueDesc" style="font-size:13px;line-height:1.6;color:#666;"></div>
-                        </div>
+            <div class="result-header">
+                <div class="animal" id="animal">🦉</div>
+                <div class="code" id="code">ARCD</div>
+                <div class="name" id="name">战略架构师</div>
+                <div class="role" id="role">战略策划者</div>
+                <div class="result-stats">
+                    <div class="result-stat" style="width:100%;">
+                        <div class="result-stat-label" style="margin-bottom:5px;">🎯 你的独特价值</div>
+                        <div id="coreValueDesc" style="font-size:13px;line-height:1.6;color:#666;"></div>
                     </div>
-                </div>
-                
-                <div class="social-proof" id="raritySection" style="background:linear-gradient(135deg,#f59e0b,#d97706);display:none;">
-                    <div style="font-size:14px;margin-bottom:5px;">🏆 稀有度：<strong id="rarity" style="font-size:16px;">约 5%</strong></div>
-                    <div style="font-size:13px;">击败 <strong id="beatPercent">87</strong>% 的采购同行 | 全国排名 <strong id="rank">3,247</strong> | <span id="rankName">战略架构师</span></div>
-                    <div id="rarityReason" style="font-size:12px;opacity:0.9;margin-top:5px;"></div>
-                </div>
-                
-                <div class="section">
-                    <div class="section-title"><span class="icon">📊</span> 个性化解读</div>
-                    <div id="personalizedInterpretation" style="padding:15px;background:#f8f9ff;border-radius:8px;margin:10px 0;"></div>
-                    <div id="mbtiInsight" style="padding:15px;background:linear-gradient(135deg,#f0f4ff,#e8ecff);border-left:4px solid #667eea;border-radius:6px;margin:15px 0;font-size:14px;line-height:1.7;color:#333;"></div>
-                    <div id="overallComment" style="padding:15px;background:linear-gradient(135deg,#667eea,#764ba2);color:white;border-radius:8px;margin-top:10px;font-size:14px;line-height:1.6;"></div>
-                </div>
-                
-                <div style="text-align:center;margin:20px 0;">
-                    <button onclick="showFullReport()" style="background:linear-gradient(135deg,#667eea,#764ba2);color:white;border:none;padding:15px 40px;border-radius:25px;font-size:16px;font-weight:bold;cursor:pointer;box-shadow:0 4px 15px rgba(102,126,234,0.4);">📖 查看深度报告</button>
-                    <div style="font-size:12px;color:#999;margin-top:10px;">包含核心优势、致命弱点、行动建议、名人对标等</div>
                 </div>
             </div>
             
-            <!-- 完整版：默认隐藏 -->
-            <div id="fullVersion" class="hidden">
-                <div style="text-align:center;margin:20px 0;">
-                    <button onclick="showQuickVersion()" style="background:#f0f0f0;color:#666;border:none;padding:10px 20px;border-radius:20px;font-size:14px;cursor:pointer;">🔙 返回快速版</button>
-                </div>
-                
-                <div class="section">
-                    <div class="section-title"><span class="icon">💪</span> 核心优势</div>
-                    <div id="strengths"></div>
-                </div>
-                
-                <div class="section">
-                    <div class="section-title"><span class="icon">⚠️</span> 致命弱点</div>
-                    <div id="weaknesses"></div>
-                </div>
-                
-                <div class="section">
-                    <div class="section-title"><span class="icon">💡</span> 行动建议</div>
-                    <div id="actions"></div>
-                </div>
+            <div class="social-proof" id="raritySection" style="background:linear-gradient(135deg,#f59e0b,#d97706);display:none;">
+                <div style="font-size:14px;margin-bottom:5px;">🏆 稀有度：<strong id="rarity" style="font-size:16px;">约 5%</strong></div>
+                <div style="font-size:13px;">击败 <strong id="beatPercent">87</strong>% 的采购同行 | 全国排名 <strong id="rank">3,247</strong> | <span id="rankName">战略架构师</span></div>
+                <div id="rarityReason" style="font-size:12px;opacity:0.9;margin-top:5px;"></div>
+            </div>
+            
+            <div class="section">
+                <div class="section-title"><span class="icon">📊</span> 个性化解读</div>
+                <div id="personalizedInterpretation" style="padding:15px;background:#f8f9ff;border-radius:8px;margin:10px 0;"></div>
+                <div id="mbtiInsight" style="padding:15px;background:linear-gradient(135deg,#f0f4ff,#e8ecff);border-left:4px solid #667eea;border-radius:6px;margin:15px 0;font-size:14px;line-height:1.7;color:#333;"></div>
+                <div id="overallComment" style="padding:15px;background:linear-gradient(135deg,#667eea,#764ba2);color:white;border-radius:8px;margin-top:10px;font-size:14px;line-height:1.6;"></div>
+            </div>
+            
+            <div class="section">
+                <div class="section-title"><span class="icon">💪</span> 核心优势</div>
+                <div id="strengths"></div>
+            </div>
+            
+            <div class="section">
+                <div class="section-title"><span class="icon">⚠️</span> 致命弱点</div>
+                <div id="weaknesses"></div>
+            </div>
+            
+            <div class="section">
+                <div class="section-title"><span class="icon">💡</span> 行动建议</div>
+                <div id="actions"></div>
+            </div>
             
             <div class="section">
                 <div class="section-title"><span class="icon">📚</span> 推荐学习</div>
@@ -649,7 +635,6 @@
                 <button class="btn-team" onclick="showJoinTeamModal()">👥 加入团队</button>
                 <button class="btn-team" style="background:#f0f0f0;color:#666;margin-top:10px;" onclick="createTeamFromResult()">📋 创建团队</button>
             </div>
-            </div><!-- 完整版结束 -->
         </div>
         
         <!-- 海报预览弹窗 -->
@@ -732,12 +717,11 @@
 
     <script src="questions-v4.js"></script>
     <script src="styles-v2.js"></script>
-    <script src="personalized-interpretation-v4.js"></script>
-    <script src="enhanced-weaknesses-v2.js"></script>
+    <script src="personalized-interpretation-v3.js"></script>
     <script src="celebrity-stories.js"></script>
     <script src="mystery-tags.js"></script>
+    <script src="enhanced-weaknesses.js"></script>
     <script src="result-enhanced.js"></script>
-    <script src="poster-themes.js"></script>
     <script>
         // 团队功能数据
         var currentTeam = null;
@@ -1495,60 +1479,17 @@
             // mode: 'preview' (预览), 'download' (下载), 'share' (分享)
             var code = document.getElementById('code').textContent;
             var style = styles[code];
-            var theme = getPosterTheme(code);
             var canvas = document.getElementById('posterCanvas');
             var ctx = canvas.getContext('2d');
             
             canvas.width = 600;
             canvas.height = 800;
             
-            // 使用风格专属配色
+            // 更绚丽的渐变背景
             var gradient = ctx.createLinearGradient(0, 0, 0, 800);
-            var gradientStr = getGradientBackground(code);
-            // 解析渐变字符串并应用
-            if (gradientStr.includes('#667eea')) {
-                gradient.addColorStop(0, '#667eea');
-                gradient.addColorStop(1, '#764ba2');
-            } else if (gradientStr.includes('#1e3c72')) {
-                gradient.addColorStop(0, '#1e3c72');
-                gradient.addColorStop(1, '#2a5298');
-            } else if (gradientStr.includes('#FF9966')) {
-                gradient.addColorStop(0, '#FF9966');
-                gradient.addColorStop(1, '#FF5E62');
-            } else if (gradientStr.includes('#56ab2f')) {
-                gradient.addColorStop(0, '#56ab2f');
-                gradient.addColorStop(1, '#a8e063');
-            } else if (gradientStr.includes('#434343')) {
-                gradient.addColorStop(0, '#434343');
-                gradient.addColorStop(1, '#2c3e50');
-            } else if (gradientStr.includes('#141E30')) {
-                gradient.addColorStop(0, '#141E30');
-                gradient.addColorStop(1, '#243B55');
-            } else if (gradientStr.includes('#cb2d3e')) {
-                gradient.addColorStop(0, '#cb2d3e');
-                gradient.addColorStop(1, '#ef473a');
-            } else if (gradientStr.includes('#FF8008')) {
-                gradient.addColorStop(0, '#FF8008');
-                gradient.addColorStop(1, '#FFC837');
-            } else if (gradientStr.includes('#11998e')) {
-                gradient.addColorStop(0, '#11998e');
-                gradient.addColorStop(1, '#38ef7d');
-            } else if (gradientStr.includes('#ee9ca7')) {
-                gradient.addColorStop(0, '#ee9ca7');
-                gradient.addColorStop(1, '#ffdde1');
-            } else if (gradientStr.includes('#FFD700')) {
-                gradient.addColorStop(0, '#FFD700');
-                gradient.addColorStop(1, '#FF8C00');
-            } else if (gradientStr.includes('#0f2027')) {
-                gradient.addColorStop(0, '#0f2027');
-                gradient.addColorStop(1, '#203a43');
-            } else if (gradientStr.includes('#4facfe')) {
-                gradient.addColorStop(0, '#4facfe');
-                gradient.addColorStop(1, '#00f2fe');
-            } else {
-                gradient.addColorStop(0, '#667eea');
-                gradient.addColorStop(1, '#764ba2');
-            }
+            gradient.addColorStop(0, '#667eea');
+            gradient.addColorStop(0.5, '#764ba2');
+            gradient.addColorStop(1, '#f093fb');
             ctx.fillStyle = gradient;
             ctx.fillRect(0, 0, 600, 800);
             
@@ -1863,21 +1804,6 @@
             currentIndex = 0;
             document.getElementById('resultPage').classList.add('hidden');
             document.getElementById('homePage').classList.remove('hidden');
-        }
-
-        // 快速版/完整版切换
-        function showFullReport() {
-            document.getElementById('quickVersion').classList.add('hidden');
-            document.getElementById('fullVersion').classList.remove('hidden');
-            // 滚动到顶部
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-
-        function showQuickVersion() {
-            document.getElementById('quickVersion').classList.remove('hidden');
-            document.getElementById('fullVersion').classList.add('hidden');
-            // 滚动到顶部
-            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
         function updateProgress() {
