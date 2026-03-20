@@ -730,6 +730,7 @@
         <canvas id="posterCanvas" class="poster-canvas"></canvas>
     </div>
 
+    <script src="poster-themes.js"></script>
     <script src="questions-v4.js"></script>
     <script src="styles-v2.js"></script>
     <script src="personalized-interpretation-v4.js"></script>
@@ -737,7 +738,6 @@
     <script src="celebrity-stories.js"></script>
     <script src="mystery-tags.js"></script>
     <script src="result-enhanced.js"></script>
-    <script src="poster-themes.js"></script>
     <script>
         // 团队功能数据
         var currentTeam = null;
@@ -1495,60 +1495,35 @@
             // mode: 'preview' (预览), 'download' (下载), 'share' (分享)
             var code = document.getElementById('code').textContent;
             var style = styles[code];
-            var theme = getPosterTheme(code);
             var canvas = document.getElementById('posterCanvas');
             var ctx = canvas.getContext('2d');
             
             canvas.width = 600;
             canvas.height = 800;
             
-            // 使用风格专属配色
+            // 使用风格专属配色（简化版，不依赖外部函数）
             var gradient = ctx.createLinearGradient(0, 0, 0, 800);
-            var gradientStr = getGradientBackground(code);
-            // 解析渐变字符串并应用
-            if (gradientStr.includes('#667eea')) {
-                gradient.addColorStop(0, '#667eea');
-                gradient.addColorStop(1, '#764ba2');
-            } else if (gradientStr.includes('#1e3c72')) {
-                gradient.addColorStop(0, '#1e3c72');
-                gradient.addColorStop(1, '#2a5298');
-            } else if (gradientStr.includes('#FF9966')) {
-                gradient.addColorStop(0, '#FF9966');
-                gradient.addColorStop(1, '#FF5E62');
-            } else if (gradientStr.includes('#56ab2f')) {
-                gradient.addColorStop(0, '#56ab2f');
-                gradient.addColorStop(1, '#a8e063');
-            } else if (gradientStr.includes('#434343')) {
-                gradient.addColorStop(0, '#434343');
-                gradient.addColorStop(1, '#2c3e50');
-            } else if (gradientStr.includes('#141E30')) {
-                gradient.addColorStop(0, '#141E30');
-                gradient.addColorStop(1, '#243B55');
-            } else if (gradientStr.includes('#cb2d3e')) {
-                gradient.addColorStop(0, '#cb2d3e');
-                gradient.addColorStop(1, '#ef473a');
-            } else if (gradientStr.includes('#FF8008')) {
-                gradient.addColorStop(0, '#FF8008');
-                gradient.addColorStop(1, '#FFC837');
-            } else if (gradientStr.includes('#11998e')) {
-                gradient.addColorStop(0, '#11998e');
-                gradient.addColorStop(1, '#38ef7d');
-            } else if (gradientStr.includes('#ee9ca7')) {
-                gradient.addColorStop(0, '#ee9ca7');
-                gradient.addColorStop(1, '#ffdde1');
-            } else if (gradientStr.includes('#FFD700')) {
-                gradient.addColorStop(0, '#FFD700');
-                gradient.addColorStop(1, '#FF8C00');
-            } else if (gradientStr.includes('#0f2027')) {
-                gradient.addColorStop(0, '#0f2027');
-                gradient.addColorStop(1, '#203a43');
-            } else if (gradientStr.includes('#4facfe')) {
-                gradient.addColorStop(0, '#4facfe');
-                gradient.addColorStop(1, '#00f2fe');
-            } else {
-                gradient.addColorStop(0, '#667eea');
-                gradient.addColorStop(1, '#764ba2');
-            }
+            var colors = {
+                ARCD: ['#1e3c72', '#2a5298'],
+                ARCP: ['#FF9966', '#FF5E62'],
+                ARBD: ['#667eea', '#764ba2'],
+                ARBP: ['#56ab2f', '#a8e063'],
+                ATCD: ['#434343', '#2c3e50'],
+                ATCP: ['#141E30', '#243B55'],
+                ATBD: ['#cb2d3e', '#ef473a'],
+                ATBP: ['#FF8008', '#FFC837'],
+                IRCD: ['#11998e', '#38ef7d'],
+                IRCP: ['#ee9ca7', '#ffdde1'],
+                IRBD: ['#FFD700', '#FF8C00'],
+                IRBP: ['#667eea', '#764ba2'],
+                ITCD: ['#0f2027', '#203a43'],
+                ITCP: ['#4facfe', '#00f2fe'],
+                ITBD: ['#FF8008', '#FFC837'],
+                ITBP: ['#4facfe', '#43e97b']
+            };
+            var c = colors[code] || ['#667eea', '#764ba2'];
+            gradient.addColorStop(0, c[0]);
+            gradient.addColorStop(1, c[1]);
             ctx.fillStyle = gradient;
             ctx.fillRect(0, 0, 600, 800);
             
