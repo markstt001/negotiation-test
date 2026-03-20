@@ -13,10 +13,15 @@
         .container { max-width: 600px; margin: 0 auto; background: #000; min-height: 100vh; }
         .hidden { display: none !important; }
         
-        /* 首页 - 乔布斯美学 */
+        /* Logo 样式 */
+        .logo-container { width: 120px; height: 120px; margin: 0 auto 40px; position: relative; }
+        .logo-circle { width: 100%; height: 100%; border-radius: 50%; background: linear-gradient(135deg, #0071e3, #005bb5); display: flex; align-items: center; justify-content: center; font-size: 56px; box-shadow: 0 20px 60px rgba(0,113,227,0.4); animation: pulse 2s ease-in-out infinite; }
+        @keyframes pulse { 0%, 100% { transform: scale(1); box-shadow: 0 20px 60px rgba(0,113,227,0.4); } 50% { transform: scale(1.05); box-shadow: 0 30px 80px rgba(0,113,227,0.6); } }
+        .logo-ring { position: absolute; top: -10px; left: -10px; right: -10px; bottom: -10px; border: 2px solid rgba(0,113,227,0.3); border-radius: 50%; animation: rotate 3s linear infinite; }
+        @keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        
+        /* 首页 */
         .hero { background: #000; color: #fff; padding: 0; min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
-        .hero-logo { font-size: 120px; margin-bottom: 40px; animation: float 3s ease-in-out infinite; }
-        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
         .hero h1 { font-size: 42px; font-weight: 700; letter-spacing: -0.5px; margin-bottom: 15px; line-height: 1.2; }
         .hero-subtitle { font-size: 21px; font-weight: 400; color: #86868b; margin-bottom: 60px; letter-spacing: 0.3px; }
         .hero-stats { display: flex; gap: 40px; margin-bottom: 80px; }
@@ -51,9 +56,9 @@
         .result-code { font-size: 64px; font-weight: 800; margin: 15px 0; letter-spacing: 8px; }
         .result-name { font-size: 28px; font-weight: 600; margin: 15px 0; }
         .result-role { font-size: 15px; opacity: 0.8; margin-top: 12px; font-weight: 400; }
-        .result-content { padding: 30px 24px; background: #000; }
+        .result-content { padding: 30px 24px; background: #000; padding-bottom: 100px; }
         .section { margin: 24px 0; padding: 24px; background: #1c1c1e; border-radius: 16px; }
-        .section-title { font-size: 15px; font-weight: 600; color: #86868b; margin-bottom: 16px; letter-spacing: 0.5px; text-transform: uppercase; }
+        .section-title { font-size: 15px; font-weight: 600; color: #fff; margin-bottom: 16px; letter-spacing: 0.5px; text-transform: uppercase; }
         .mbti-insight { background: #2c2c2e; padding: 20px; border-radius: 12px; margin: 16px 0; font-size: 15px; line-height: 1.8; color: #fff; white-space: pre-line; font-weight: 400; border-left: 3px solid #0071e3; }
         .weakness-item { background: #2c2c2e; padding: 20px; margin: 12px 0; border-radius: 12px; border-left: 3px solid #f5a623; }
         .weakness-title { font-weight: 600; color: #fff; margin-bottom: 12px; font-size: 15px; }
@@ -66,11 +71,15 @@
         .btn-action:hover { background: #0077ed; }
         .btn-action:active { transform: scale(0.98); }
         .btn-secondary { background: #2c2c2e; color: #fff; }
+        
+        /* 课程卡片 - 移到完整版底部 */
         .course-card { background: linear-gradient(135deg, #0071e3, #005bb5); color: #fff; padding: 30px; border-radius: 16px; margin: 24px 0; }
         .course-name { font-size: 22px; font-weight: 700; margin-bottom: 12px; }
         .course-teacher { font-size: 14px; opacity: 0.8; margin-bottom: 8px; }
         .course-price { font-size: 28px; font-weight: 800; margin: 20px 0; }
         .course-btn { background: #fff; color: #0071e3; border: none; padding: 16px 36px; border-radius: 980px; font-size: 15px; font-weight: 600; cursor: pointer; display: inline-block; margin-top: 12px; }
+        
+        /* 团队功能 */
         .team-section { background: #1c1c1e; padding: 30px 24px; margin: 24px 0; border-radius: 16px; text-align: center; }
         .team-title { font-size: 17px; font-weight: 600; color: #fff; margin-bottom: 20px; }
         .team-btn { background: #2c2c2e; color: #fff; border: 2px solid #333; padding: 16px 40px; border-radius: 980px; font-size: 15px; font-weight: 600; cursor: pointer; margin: 10px 0; width: 100%; }
@@ -90,7 +99,8 @@
         
         /* 移动端适配 */
         @media (max-width: 375px) {
-            .hero-logo { font-size: 100px; }
+            .logo-container { width: 100px; height: 100px; }
+            .logo-circle { font-size: 48px; }
             .hero h1 { font-size: 36px; }
             .hero-subtitle { font-size: 18px; }
             .hero-stats { gap: 25px; }
@@ -104,7 +114,10 @@
         <!-- 首页 -->
         <div id="homePage">
             <div class="hero">
-                <div class="hero-logo">🎯</div>
+                <div class="logo-container">
+                    <div class="logo-ring"></div>
+                    <div class="logo-circle">🎯</div>
+                </div>
                 <h1>采购谈判风格测试</h1>
                 <p class="hero-subtitle">发现你的谈判基因</p>
                 <div class="hero-stats">
@@ -191,7 +204,14 @@
                         <div id="celebrityStory"></div>
                     </div>
                     
-                    <!-- 课程推荐 -->
+                    <!-- 团队功能 -->
+                    <div class="team-section">
+                        <div class="team-title">团队功能</div>
+                        <button class="team-btn" onclick="showJoinTeamModal()">加入团队</button>
+                        <button class="team-btn" onclick="createTeamFromResult()">创建团队</button>
+                    </div>
+                    
+                    <!-- 课程推荐 - 移到最后 -->
                     <div class="course-card">
                         <div class="course-name">《供应商管理与谈判实战》</div>
                         <div class="course-teacher">讲师：姜宏锋</div>
@@ -200,13 +220,6 @@
                     </div>
                     
                     <button class="btn-action" onclick="generatePoster()">生成海报分享</button>
-                </div>
-                
-                <!-- 团队功能 -->
-                <div class="team-section">
-                    <div class="team-title">团队功能</div>
-                    <button class="team-btn" onclick="showJoinTeamModal()">加入团队</button>
-                    <button class="team-btn" onclick="createTeamFromResult()">创建团队</button>
                 </div>
                 
                 <button class="btn-action btn-secondary" onclick="retakeTest()" style="margin-top: 24px;">重新测试</button>
@@ -257,13 +270,13 @@
     
     <canvas id="posterCanvas" style="display: none;"></canvas>
     
-    <script src="poster-themes.js?v=202603201720"></script>
-    <script src="questions-v4.js?v=202603201720"></script>
-    <script src="styles-v2.js?v=202603201720"></script>
-    <script src="personalized-interpretation-v4.js?v=202603201720"></script>
-    <script src="enhanced-weaknesses-v2.js?v=202603201720"></script>
-    <script src="celebrity-stories.js?v=202603201720"></script>
-    <script src="mystery-tags.js?v=202603201720"></script>
+    <script src="poster-themes.js?v=202603201740"></script>
+    <script src="questions-v4.js?v=202603201740"></script>
+    <script src="styles-v2.js?v=202603201740"></script>
+    <script src="personalized-interpretation-v4.js?v=202603201740"></script>
+    <script src="enhanced-weaknesses-v2.js?v=202603201740"></script>
+    <script src="celebrity-stories.js?v=202603201740"></script>
+    <script src="mystery-tags.js?v=202603201740"></script>
     <script>
         var currentIndex = 0;
         var answers = [];
@@ -384,10 +397,10 @@
             document.getElementById('mysteryTags').innerHTML = tagsHtml;
             
             var strengthsHtml = '';
-            if (interpretation.decision) strengthsHtml += '<div style="margin-bottom:12px;line-height:1.7;"><strong>决策风格：</strong>' + interpretation.decision + '</div>';
-            if (interpretation.relation) strengthsHtml += '<div style="margin-bottom:12px;line-height:1.7;"><strong>关系导向：</strong>' + interpretation.relation + '</div>';
-            if (interpretation.risk) strengthsHtml += '<div style="margin-bottom:12px;line-height:1.7;"><strong>风险态度：</strong>' + interpretation.risk + '</div>';
-            if (interpretation.comm) strengthsHtml += '<div style="line-height:1.7;"><strong>沟通方式：</strong>' + interpretation.comm + '</div>';
+            if (interpretation.decision) strengthsHtml += '<div style="margin-bottom:12px;line-height:1.7;color:#fff;"><strong style="color:#fff;">决策风格：</strong>' + interpretation.decision + '</div>';
+            if (interpretation.relation) strengthsHtml += '<div style="margin-bottom:12px;line-height:1.7;color:#fff;"><strong style="color:#fff;">关系导向：</strong>' + interpretation.relation + '</div>';
+            if (interpretation.risk) strengthsHtml += '<div style="margin-bottom:12px;line-height:1.7;color:#fff;"><strong style="color:#fff;">风险态度：</strong>' + interpretation.risk + '</div>';
+            if (interpretation.comm) strengthsHtml += '<div style="line-height:1.7;color:#fff;"><strong style="color:#fff;">沟通方式：</strong>' + interpretation.comm + '</div>';
             document.getElementById('strengths').innerHTML = strengthsHtml;
             
             var weaknessesHtml = '';
@@ -402,7 +415,7 @@
             }
             document.getElementById('weaknesses').innerHTML = weaknessesHtml;
             
-            var actionsHtml = '<div style="line-height:1.8;">';
+            var actionsHtml = '<div style="line-height:1.8;color:#fff;">';
             actionsHtml += '<div style="margin-bottom:10px;">1️⃣ 发挥你的 <strong>' + (dimensionScores.A >= dimensionScores.I ? '数据分析' : '直觉判断') + '</strong> 优势</div>';
             actionsHtml += '<div style="margin-bottom:10px;">2️⃣ 在 <strong>' + (dimensionScores.R >= dimensionScores.T ? '关系维护' : '任务执行') + '</strong> 上继续保持</div>';
             actionsHtml += '<div>3️⃣ 注意平衡 <strong>' + (dimensionScores.C >= dimensionScores.B ? '谨慎' : '冒险') + '</strong> 倾向</div>';
@@ -410,9 +423,9 @@
             document.getElementById('actions').innerHTML = actionsHtml;
             
             document.getElementById('celebrityStory').innerHTML = 
-                '<div style="font-size:20px;font-weight:700;margin-bottom:12px;">' + story.name + ' · ' + story.title + '</div>' +
+                '<div style="font-size:20px;font-weight:700;margin-bottom:12px;color:#fff;">' + story.name + ' · ' + story.title + '</div>' +
                 '<div style="line-height:1.8;color:#fff;">' + story.story + '</div>' +
-                '<div style="margin-top:15px;padding:12px;background:rgba(0,113,227,0.2);border-radius:8px;color:#0071e3;"><strong>' + story.scene + '</strong></div>' +
+                '<div style="margin-top:15px;padding:12px;background:rgba(0,113,227,0.2);border-radius:8px;color:#5ac8fa;"><strong>' + story.scene + '</strong></div>' +
                 '<div style="margin-top:10px;padding:12px;background:rgba(52,199,89,0.2);border-radius:8px;color:#34c759;"><strong>' + story.aspiration + '</strong></div>';
             
             document.getElementById('testPage').classList.add('hidden');
@@ -422,6 +435,7 @@
         function showFullReport() {
             document.getElementById('quickVersion').classList.add('hidden');
             document.getElementById('fullVersion').classList.remove('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
         
         function showQuickVersion() {
