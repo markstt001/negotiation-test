@@ -13,7 +13,7 @@
         .container { max-width: 600px; margin: 0 auto; background: #000; min-height: 100vh; }
         .hidden { display: none !important; }
         
-        /* Logo 样式 - 黄金面具（高清仿真版） */
+        /* Logo 样式 - 黄金面具 */
         .logo-container { width: 100px; height: 100px; margin: 0 auto 30px; position: relative; }
         .logo-circle { width: 100%; height: 100%; border-radius: 50%; background: radial-gradient(circle at 30% 30%, #f4e5b3, #d4af37 50%, #b8860b 100%); display: flex; align-items: center; justify-content: center; box-shadow: 0 20px 50px rgba(212,175,55,0.4); overflow: hidden; position: relative; }
         .logo-mask { position: relative; width: 70px; height: 85px; }
@@ -64,29 +64,47 @@
         .btn-nav:disabled { opacity: 0.3; cursor: not-allowed; }
         .btn-nav.primary { background: #0071e3; }
         
-        /* 结果页 */
+        /* 结果页 - 统一视觉风格 */
         .result-header { background: linear-gradient(135deg, #0071e3, #005bb5); color: #fff; padding: 30px 20px 25px; text-align: center; }
         .result-animal { font-size: 70px; margin-bottom: 10px; }
         .result-code { font-size: 48px; font-weight: 800; margin: 10px 0; letter-spacing: 6px; }
         .result-name { font-size: 22px; font-weight: 600; margin: 10px 0; }
         .result-role { font-size: 14px; opacity: 0.8; margin-top: 8px; font-weight: 400; }
-        .result-content { padding: 25px 20px; background: #000; padding-bottom: 120px; }
-        .section { margin: 24px 0; padding: 24px; background: #1c1c1e; border-radius: 16px; }
-        .section-title { font-size: 15px; font-weight: 600; color: #fff; margin-bottom: 16px; letter-spacing: 0.5px; text-transform: uppercase; }
-        .mbti-insight { background: #2c2c2e; padding: 20px; border-radius: 12px; margin: 16px 0; font-size: 15px; line-height: 1.8; color: #fff; white-space: pre-line; font-weight: 400; border-left: 3px solid #0071e3; }
-        .weakness-item { background: #2c2c2e; padding: 20px; margin: 12px 0; border-radius: 12px; border-left: 3px solid #f5a623; }
-        .weakness-title { font-weight: 600; color: #fff; margin-bottom: 12px; font-size: 15px; }
-        .weakness-scenario { color: #86868b; font-size: 13px; margin: 8px 0; line-height: 1.5; }
-        .weakness-improve { color: #0071e3; font-size: 13px; margin: 8px 0; line-height: 1.5; font-weight: 600; }
-        .weakness-positive { color: #34c759; font-size: 13px; margin: 8px 0; line-height: 1.5; font-weight: 600; }
+        .result-content { padding: 20px; background: #000; padding-bottom: 120px; }
+        
+        /* 统一卡片样式 */
+        .card { background: #1c1c1e; border-radius: 16px; margin: 16px 0; overflow: hidden; }
+        .card-header { background: linear-gradient(135deg, #2c2c2e, #1c1c1e); padding: 16px 20px; border-bottom: 1px solid #333; }
+        .card-title { font-size: 15px; font-weight: 700; color: #fff; margin: 0; display: flex; align-items: center; gap: 8px; }
+        .card-body { padding: 20px; }
+        
+        /* 内心洞察/最佳搭档 */
+        .insight-box { background: linear-gradient(135deg, #2c2c2e, #1c1c1e); padding: 20px; border-radius: 12px; font-size: 15px; line-height: 1.8; color: #fff; white-space: pre-line; border-left: 4px solid #0071e3; }
+        .insight-box.match { border-left-color: #34c759; }
+        
+        /* 神秘标签 */
         .tags { display: flex; flex-wrap: wrap; gap: 10px; margin: 16px 0; }
         .tag { background: #0071e3; color: #fff; padding: 8px 16px; border-radius: 980px; font-size: 12px; font-weight: 600; letter-spacing: 0.3px; }
+        
+        /* 致命弱点 */
+        .weakness-item { background: linear-gradient(135deg, #2c2c2e, #1c1c1e); padding: 20px; margin: 12px 0; border-radius: 12px; border-left: 4px solid #f5a623; }
+        .weakness-title { font-weight: 700; color: #fff; margin-bottom: 10px; font-size: 15px; }
+        .weakness-scenario { color: #86868b; font-size: 13px; margin: 6px 0; line-height: 1.5; }
+        .weakness-improve { color: #0071e3; font-size: 13px; margin: 6px 0; line-height: 1.5; font-weight: 600; }
+        .weakness-positive { color: #34c759; font-size: 13px; margin: 6px 0; line-height: 1.5; font-weight: 600; }
+        
+        /* 核心优势/行动建议/名人对标 */
+        .content-list { color: #fff; line-height: 1.8; font-size: 15px; }
+        .content-list div { margin-bottom: 12px; }
+        .content-list strong { color: #fff; }
+        
+        /* 按钮 */
         .btn-action { background: #0071e3; color: #fff; border: none; padding: 20px 40px; border-radius: 980px; font-size: 17px; font-weight: 600; cursor: pointer; width: 100%; margin: 16px 0; transition: all 0.3s; letter-spacing: 0.3px; }
         .btn-action:hover { background: #0077ed; }
         .btn-action:active { transform: scale(0.98); }
         .btn-secondary { background: #2c2c2e; color: #fff; }
         
-        /* 课程卡片 - 移到完整版底部 */
+        /* 课程卡片 */
         .course-card { background: linear-gradient(135deg, #0071e3, #005bb5); color: #fff; padding: 30px; border-radius: 16px; margin: 24px 0; }
         .course-name { font-size: 22px; font-weight: 700; margin-bottom: 12px; }
         .course-teacher { font-size: 14px; opacity: 0.8; margin-bottom: 8px; }
@@ -114,7 +132,6 @@
         /* 移动端适配 */
         @media (max-width: 375px) {
             .logo-container { width: 100px; height: 100px; }
-            .logo-circle { font-size: 48px; }
             .hero h1 { font-size: 36px; }
             .hero-subtitle { font-size: 18px; }
             .hero-stats { gap: 25px; }
@@ -193,66 +210,89 @@
             </div>
             
             <div class="result-content">
-                <!-- 快速版 -->
-                <div id="quickVersion">
-                    <div class="section">
-                        <div class="section-title">内心洞察</div>
-                        <div class="mbti-insight" id="mbtiInsight"></div>
+                <!-- 内心洞察 -->
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">🔮 内心洞察</div>
                     </div>
-                    
-                    <div class="section">
-                        <div class="section-title">最佳搭档</div>
-                        <div class="mbti-insight" id="bestMatch" style="border-left-color: #34c759;"></div>
+                    <div class="card-body">
+                        <div class="insight-box" id="mbtiInsight"></div>
                     </div>
-                    
-                    <div class="section">
-                        <div class="section-title">神秘标签</div>
-                        <div class="tags" id="mysteryTags"></div>
-                    </div>
-                    
-                    <button class="btn-action" onclick="showFullReport()">查看深度报告</button>
                 </div>
                 
-                <!-- 完整版 -->
-                <div id="fullVersion" class="hidden">
-                    <button class="btn-action btn-secondary" onclick="showQuickVersion()" style="margin-bottom: 16px;">返回快速版</button>
-                    
-                    <div class="section">
-                        <div class="section-title">核心优势</div>
-                        <div id="strengths"></div>
+                <!-- 最佳搭档 -->
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">🤝 最佳搭档</div>
                     </div>
-                    
-                    <div class="section">
-                        <div class="section-title">致命弱点</div>
+                    <div class="card-body">
+                        <div class="insight-box match" id="bestMatch"></div>
+                    </div>
+                </div>
+                
+                <!-- 神秘标签 -->
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">🏷️ 神秘标签</div>
+                    </div>
+                    <div class="card-body">
+                        <div class="tags" id="mysteryTags"></div>
+                    </div>
+                </div>
+                
+                <!-- 核心优势 -->
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">💪 核心优势</div>
+                    </div>
+                    <div class="card-body">
+                        <div class="content-list" id="strengths"></div>
+                    </div>
+                </div>
+                
+                <!-- 致命弱点 -->
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">⚠️ 致命弱点</div>
+                    </div>
+                    <div class="card-body">
                         <div id="weaknesses"></div>
                     </div>
-                    
-                    <div class="section">
-                        <div class="section-title">行动建议</div>
-                        <div id="actions"></div>
+                </div>
+                
+                <!-- 行动建议 -->
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">💡 行动建议</div>
                     </div>
-                    
-                    <div class="section">
-                        <div class="section-title">名人对标</div>
-                        <div id="celebrityStory"></div>
+                    <div class="card-body">
+                        <div class="content-list" id="actions"></div>
                     </div>
-                    
-                    <!-- 团队功能 -->
-                    <div class="team-section">
-                        <div class="team-title">团队功能</div>
-                        <button class="team-btn" onclick="showJoinTeamModal()">加入团队</button>
-                        <button class="team-btn" onclick="createTeamFromResult()">创建团队</button>
+                </div>
+                
+                <!-- 名人对标 -->
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">🏆 名人对标</div>
                     </div>
-                    
-                    <!-- 课程推荐 - 移到最后 -->
-                    <div class="course-card">
-                        <div class="course-name">《供应商管理与谈判实战》</div>
-                        <div class="course-teacher">讲师：姜宏锋</div>
-                        <div class="course-price">限时优惠：¥1,999</div>
-                        <button class="course-btn" onclick="enrollCourse()">立即报名</button>
+                    <div class="card-body">
+                        <div class="content-list" id="celebrityStory"></div>
                     </div>
-                    
-                    <button class="btn-action" onclick="generatePoster()">生成海报分享</button>
+                </div>
+                
+                <!-- 课程推荐 -->
+                <div class="course-card">
+                    <div class="course-name">《供应商管理与谈判实战》</div>
+                    <div class="course-teacher">讲师：姜宏锋</div>
+                    <div class="course-price">限时优惠：¥1,999</div>
+                    <button class="course-btn" onclick="enrollCourse()">立即报名</button>
+                </div>
+                
+                <!-- 团队功能 -->
+                <div class="team-section">
+                    <div class="team-title">👥 团队功能</div>
+                    <button class="team-btn" onclick="showJoinTeamModal()">加入团队</button>
+                    <button class="team-btn" onclick="createTeamFromResult()">创建团队</button>
                 </div>
                 
                 <button class="btn-action btn-secondary" onclick="retakeTest()" style="margin-top: 24px;">重新测试</button>
@@ -265,15 +305,19 @@
                 <h1>我的</h1>
             </div>
             <div class="result-content">
-                <div class="section">
-                    <div class="section-title">我的测试结果</div>
-                    <div id="myResult"></div>
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">📊 我的测试结果</div>
+                    </div>
+                    <div class="card-body" id="myResult"></div>
                 </div>
-                <div class="section">
-                    <div class="section-title">我的团队</div>
-                    <div id="myTeam"></div>
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">👥 我的团队</div>
+                    </div>
+                    <div class="card-body" id="myTeam"></div>
                 </div>
-                <button class="btn-action btn-secondary" onclick="clearAllData()">清除所有数据</button>
+                <button class="btn-action btn-secondary" onclick="clearAllData()" style="margin-top: 24px;">清除所有数据</button>
             </div>
         </div>
     </div>
@@ -303,13 +347,13 @@
     
     <canvas id="posterCanvas" style="display: none;"></canvas>
     
-    <script src="poster-themes.js?v=202603202245"></script>
-    <script src="questions-v4.js?v=202603202245"></script>
-    <script src="styles-v2.js?v=202603202245"></script>
-    <script src="personalized-interpretation-v4.js?v=202603202245"></script>
-    <script src="enhanced-weaknesses-v2.js?v=202603202245"></script>
-    <script src="celebrity-stories.js?v=202603202245"></script>
-    <script src="mystery-tags.js?v=202603202245"></script>
+    <script src="poster-themes.js?v=202603202300"></script>
+    <script src="questions-v4.js?v=202603202300"></script>
+    <script src="styles-v2.js?v=202603202300"></script>
+    <script src="personalized-interpretation-v4.js?v=202603202300"></script>
+    <script src="enhanced-weaknesses-v2.js?v=202603202300"></script>
+    <script src="celebrity-stories.js?v=202603202300"></script>
+    <script src="mystery-tags.js?v=202603202300"></script>
     <script>
         var currentIndex = 0;
         var answers = [];
@@ -452,10 +496,10 @@
             document.getElementById('mysteryTags').innerHTML = tagsHtml;
             
             var strengthsHtml = '';
-            if (interpretation.decision) strengthsHtml += '<div style="margin-bottom:12px;line-height:1.7;color:#fff;"><strong style="color:#fff;">决策风格：</strong>' + interpretation.decision + '</div>';
-            if (interpretation.relation) strengthsHtml += '<div style="margin-bottom:12px;line-height:1.7;color:#fff;"><strong style="color:#fff;">关系导向：</strong>' + interpretation.relation + '</div>';
-            if (interpretation.risk) strengthsHtml += '<div style="margin-bottom:12px;line-height:1.7;color:#fff;"><strong style="color:#fff;">风险态度：</strong>' + interpretation.risk + '</div>';
-            if (interpretation.comm) strengthsHtml += '<div style="line-height:1.7;color:#fff;"><strong style="color:#fff;">沟通方式：</strong>' + interpretation.comm + '</div>';
+            if (interpretation.decision) strengthsHtml += '<div><strong>决策风格：</strong>' + interpretation.decision + '</div>';
+            if (interpretation.relation) strengthsHtml += '<div><strong>关系导向：</strong>' + interpretation.relation + '</div>';
+            if (interpretation.risk) strengthsHtml += '<div><strong>风险态度：</strong>' + interpretation.risk + '</div>';
+            if (interpretation.comm) strengthsHtml += '<div><strong>沟通方式：</strong>' + interpretation.comm + '</div>';
             document.getElementById('strengths').innerHTML = strengthsHtml;
             
             var weaknessesHtml = '';
@@ -470,32 +514,19 @@
             }
             document.getElementById('weaknesses').innerHTML = weaknessesHtml;
             
-            var actionsHtml = '<div style="line-height:1.8;color:#fff;">';
-            actionsHtml += '<div style="margin-bottom:10px;">1️⃣ 发挥你的 <strong>' + (dimensionScores.A >= dimensionScores.I ? '数据分析' : '直觉判断') + '</strong> 优势</div>';
-            actionsHtml += '<div style="margin-bottom:10px;">2️⃣ 在 <strong>' + (dimensionScores.R >= dimensionScores.T ? '关系维护' : '任务执行') + '</strong> 上继续保持</div>';
+            var actionsHtml = '<div>1️⃣ 发挥你的 <strong>' + (dimensionScores.A >= dimensionScores.I ? '数据分析' : '直觉判断') + '</strong> 优势</div>';
+            actionsHtml += '<div>2️⃣ 在 <strong>' + (dimensionScores.R >= dimensionScores.T ? '关系维护' : '任务执行') + '</strong> 上继续保持</div>';
             actionsHtml += '<div>3️⃣ 注意平衡 <strong>' + (dimensionScores.C >= dimensionScores.B ? '谨慎' : '冒险') + '</strong> 倾向</div>';
-            actionsHtml += '</div>';
             document.getElementById('actions').innerHTML = actionsHtml;
             
             document.getElementById('celebrityStory').innerHTML = 
-                '<div style="font-size:20px;font-weight:700;margin-bottom:12px;color:#fff;">' + story.name + ' · ' + story.title + '</div>' +
-                '<div style="line-height:1.8;color:#fff;">' + story.story + '</div>' +
+                '<div style="font-size:18px;font-weight:700;margin-bottom:12px;">' + story.name + ' · ' + story.title + '</div>' +
+                '<div style="line-height:1.8;">' + story.story + '</div>' +
                 '<div style="margin-top:15px;padding:12px;background:rgba(0,113,227,0.2);border-radius:8px;color:#5ac8fa;"><strong>' + story.scene + '</strong></div>' +
                 '<div style="margin-top:10px;padding:12px;background:rgba(52,199,89,0.2);border-radius:8px;color:#34c759;"><strong>' + story.aspiration + '</strong></div>';
             
             document.getElementById('testPage').classList.add('hidden');
             document.getElementById('resultPage').classList.remove('hidden');
-        }
-        
-        function showFullReport() {
-            document.getElementById('quickVersion').classList.add('hidden');
-            document.getElementById('fullVersion').classList.remove('hidden');
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-        
-        function showQuickVersion() {
-            document.getElementById('quickVersion').classList.remove('hidden');
-            document.getElementById('fullVersion').classList.add('hidden');
         }
         
         function generatePoster() {
