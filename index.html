@@ -15,13 +15,52 @@
     <title>采购谈判风格测试 2.0 - 发现你的谈判超能力</title>
     <link rel="stylesheet" href="mobile-optimization.css">
     
-    <!-- 微信分享优化 -->
-    <meta property="og:title" content="我的采购谈判风格测试">
+    <!-- 微信分享优化 - 动态 meta 标签 -->
+    <meta property="og:title" content="我的采购谈判风格测试 - 发现你的谈判超能力">
     <meta property="og:description" content="测测你的谈判风格是什么？是战略架构师还是关系建筑师？看看我们匹配度如何！">
-    <meta property="og:image" content="https://yugao2.github.io/negotiation-test/og-image.png">
+    <meta property="og:image" content="https://yugao2.github.io/negotiation-test/og-image.png" id="ogImage">
     <meta property="og:url" content="https://yugao2.github.io/negotiation-test/">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="description" content="测测你的谈判风格是什么？已有 1,234 位采购参与测试，看看我们匹配度如何！">
+    <!-- 微信 JS-SDK 配置（需要后端签名支持） -->
+    <script>
+        // 微信分享动态配置
+        window.wechatShareConfig = {
+            title: '我的采购谈判风格测试',
+            desc: '测测你的谈判风格是什么？看看我们匹配度如何！',
+            link: 'https://yugao2.github.io/negotiation-test/',
+            imgUrl: 'https://yugao2.github.io/negotiation-test/og-image.png'
+        };
+        
+        // 更新微信分享配置
+        function updateWechatShare(styleCode, styleName, animal) {
+            var config = window.wechatShareConfig;
+            config.title = '我是' + styleCode + ' ' + styleName + ' ' + animal + '，测测你的谈判风格！';
+            config.desc = '我击败了 ' + document.getElementById('beatPercent').textContent + '% 的采购同行，看看你的谈判超能力是什么？';
+            config.link = window.location.href;
+            
+            // 更新 meta 标签
+            document.getElementById('ogImage').content = config.imgUrl;
+            document.title = config.title;
+            
+            // 如果微信 JS-SDK 已加载，更新分享配置
+            if (window.wx) {
+                window.wx.updateAppMessageShareData({
+                    title: config.title,
+                    desc: config.desc,
+                    link: config.link,
+                    imgUrl: config.imgUrl,
+                    success: function() {}
+                });
+                window.wx.updateTimelineShareData({
+                    title: config.title,
+                    link: config.link,
+                    imgUrl: config.imgUrl,
+                    success: function() {}
+                });
+            }
+        }
+    </script>
     <style>
         /* 移动端优先适配 */
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -103,6 +142,83 @@
         .btn-share { background: linear-gradient(90deg, #667eea, #764ba2); color: white; }
         .btn-retake { background: #f0f0f0; color: #666; }
         .poster-canvas { display: none; }
+        
+        /* 海报预览弹窗 */
+        .poster-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.85);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+        .poster-modal.show {
+            opacity: 1;
+            visibility: visible;
+        }
+        .poster-modal-content {
+            background: white;
+            border-radius: 16px;
+            padding: 20px;
+            max-width: 90%;
+            max-height: 90vh;
+            overflow: auto;
+            position: relative;
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+        }
+        .poster-modal.show .poster-modal-content {
+            transform: scale(1);
+        }
+        .poster-modal-close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(0,0,0,0.5);
+            color: white;
+            border: none;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            font-size: 20px;
+            cursor: pointer;
+            z-index: 10;
+        }
+        .poster-modal-img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 8px;
+        }
+        .poster-modal-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        .poster-modal-btn {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .poster-modal-btn.save {
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            color: white;
+        }
+        .poster-modal-btn.share {
+            background: #f0f0f0;
+            color: #666;
+        }
         .social-proof { background: linear-gradient(135deg, #fbbf24, #f59e0b); color: white; padding: 15px; border-radius: 12px; margin: 20px 0; text-align: center; font-weight: 600; }
         
         /* 团队功能样式 */
@@ -422,46 +538,60 @@
 
         <!-- 结果页 -->
         <div id="resultPage" class="hidden">
-            <div class="result-header">
-                <div class="animal" id="animal">🦉</div>
-                <div class="code" id="code">ARCD</div>
-                <div class="name" id="name">战略架构师</div>
-                <div class="role" id="role">战略策划者</div>
-                <div class="result-stats">
-                    <div class="result-stat" style="width:100%;">
-                        <div class="result-stat-label" style="margin-bottom:5px;">🎯 你的独特价值</div>
-                        <div id="coreValueDesc" style="font-size:13px;line-height:1.6;color:#666;"></div>
+            <!-- 快速版：默认显示 -->
+            <div id="quickVersion">
+                <div class="result-header">
+                    <div class="animal" id="animal">🦉</div>
+                    <div class="code" id="code">ARCD</div>
+                    <div class="name" id="name">战略架构师</div>
+                    <div class="role" id="role">战略策划者</div>
+                    <div class="result-stats">
+                        <div class="result-stat" style="width:100%;">
+                            <div class="result-stat-label" style="margin-bottom:5px;">🎯 你的独特价值</div>
+                            <div id="coreValueDesc" style="font-size:13px;line-height:1.6;color:#666;"></div>
+                        </div>
                     </div>
+                </div>
+                
+                <div class="social-proof" id="raritySection" style="background:linear-gradient(135deg,#f59e0b,#d97706);display:none;">
+                    <div style="font-size:14px;margin-bottom:5px;">🏆 稀有度：<strong id="rarity" style="font-size:16px;">约 5%</strong></div>
+                    <div style="font-size:13px;">击败 <strong id="beatPercent">87</strong>% 的采购同行 | 全国排名 <strong id="rank">3,247</strong> | <span id="rankName">战略架构师</span></div>
+                    <div id="rarityReason" style="font-size:12px;opacity:0.9;margin-top:5px;"></div>
+                </div>
+                
+                <div class="section">
+                    <div class="section-title"><span class="icon">📊</span> 个性化解读</div>
+                    <div id="personalizedInterpretation" style="padding:15px;background:#f8f9ff;border-radius:8px;margin:10px 0;"></div>
+                    <div id="mbtiInsight" style="padding:15px;background:linear-gradient(135deg,#f0f4ff,#e8ecff);border-left:4px solid #667eea;border-radius:6px;margin:15px 0;font-size:14px;line-height:1.7;color:#333;"></div>
+                    <div id="overallComment" style="padding:15px;background:linear-gradient(135deg,#667eea,#764ba2);color:white;border-radius:8px;margin-top:10px;font-size:14px;line-height:1.6;"></div>
+                </div>
+                
+                <div style="text-align:center;margin:20px 0;">
+                    <button onclick="showFullReport()" style="background:linear-gradient(135deg,#667eea,#764ba2);color:white;border:none;padding:15px 40px;border-radius:25px;font-size:16px;font-weight:bold;cursor:pointer;box-shadow:0 4px 15px rgba(102,126,234,0.4);">📖 查看深度报告</button>
+                    <div style="font-size:12px;color:#999;margin-top:10px;">包含核心优势、致命弱点、行动建议、名人对标等</div>
                 </div>
             </div>
             
-            <div class="social-proof" id="raritySection" style="background:linear-gradient(135deg,#f59e0b,#d97706);display:none;">
-                <div style="font-size:14px;margin-bottom:5px;">🏆 稀有度：<strong id="rarity" style="font-size:16px;">约 5%</strong></div>
-                <div style="font-size:13px;">击败 <strong id="beatPercent">87</strong>% 的采购同行 | 全国排名 <strong id="rank">3,247</strong> | <span id="rankName">战略架构师</span></div>
-                <div id="rarityReason" style="font-size:12px;opacity:0.9;margin-top:5px;"></div>
-            </div>
-            
-            <div class="section">
-                <div class="section-title"><span class="icon">📊</span> 个性化解读</div>
-                <div id="personalizedInterpretation" style="padding:15px;background:#f8f9ff;border-radius:8px;margin:10px 0;"></div>
-                <div id="mbtiInsight" style="padding:15px;background:linear-gradient(135deg,#f0f4ff,#e8ecff);border-left:4px solid #667eea;border-radius:6px;margin:15px 0;font-size:14px;line-height:1.7;color:#333;"></div>
-                <div id="overallComment" style="padding:15px;background:linear-gradient(135deg,#667eea,#764ba2);color:white;border-radius:8px;margin-top:10px;font-size:14px;line-height:1.6;"></div>
-            </div>
-            
-            <div class="section">
-                <div class="section-title"><span class="icon">💪</span> 核心优势</div>
-                <div id="strengths"></div>
-            </div>
-            
-            <div class="section">
-                <div class="section-title"><span class="icon">⚠️</span> 致命弱点</div>
-                <div id="weaknesses"></div>
-            </div>
-            
-            <div class="section">
-                <div class="section-title"><span class="icon">💡</span> 行动建议</div>
-                <div id="actions"></div>
-            </div>
+            <!-- 完整版：默认隐藏 -->
+            <div id="fullVersion" class="hidden">
+                <div style="text-align:center;margin:20px 0;">
+                    <button onclick="showQuickVersion()" style="background:#f0f0f0;color:#666;border:none;padding:10px 20px;border-radius:20px;font-size:14px;cursor:pointer;">🔙 返回快速版</button>
+                </div>
+                
+                <div class="section">
+                    <div class="section-title"><span class="icon">💪</span> 核心优势</div>
+                    <div id="strengths"></div>
+                </div>
+                
+                <div class="section">
+                    <div class="section-title"><span class="icon">⚠️</span> 致命弱点</div>
+                    <div id="weaknesses"></div>
+                </div>
+                
+                <div class="section">
+                    <div class="section-title"><span class="icon">💡</span> 行动建议</div>
+                    <div id="actions"></div>
+                </div>
             
             <div class="section">
                 <div class="section-title"><span class="icon">📚</span> 推荐学习</div>
@@ -501,18 +631,39 @@
             </div>
             
             <div class="btn-group">
-                <button class="btn-share" onclick="generateAndShare()">📸 生成海报分享</button>
+                <button class="btn-share" onclick="generateAndShare('preview')">📸 生成海报分享</button>
                 <button class="btn-retake" onclick="retakeTest()">🔄 重测</button>
             </div>
             
-            <div style="margin-top:15px;text-align:center;">
-                <button onclick="previewPoster()" style="background:#f0f0f0;color:#666;border:none;padding:10px 20px;border-radius:8px;font-size:13px;cursor:pointer;">👀 预览海报</button>
+            <div style="margin-top:15px;text-align:center;padding:15px;background:#f0f4ff;border-radius:8px;">
+                <div style="font-size:12px;color:#667eea;margin-bottom:8px;">💡 分享提示</div>
+                <div style="font-size:12px;color:#666;line-height:1.6;">
+                    1️⃣ 点击"生成海报分享"预览海报<br>
+                    2️⃣ 长按图片保存到相册<br>
+                    3️⃣ 打开微信 → 发送朋友圈
+                </div>
             </div>
             
             <div style="margin-top:20px;padding-top:20px;border-top:2px solid #e0e0e0;">
                 <h3 style="text-align:center;color:#667eea;margin-bottom:15px;">👥 团队功能</h3>
                 <button class="btn-team" onclick="showJoinTeamModal()">👥 加入团队</button>
                 <button class="btn-team" style="background:#f0f0f0;color:#666;margin-top:10px;" onclick="createTeamFromResult()">📋 创建团队</button>
+            </div>
+            </div><!-- 完整版结束 -->
+        </div>
+        
+        <!-- 海报预览弹窗 -->
+        <div id="posterModal" class="poster-modal" onclick="closePosterModal(event)">
+            <div class="poster-modal-content" onclick="event.stopPropagation()">
+                <button class="poster-modal-close" onclick="closePosterModal()">&times;</button>
+                <img id="posterPreviewImg" class="poster-modal-img" src="" alt="海报预览">
+                <div class="poster-modal-actions">
+                    <button class="poster-modal-btn save" onclick="savePosterToAlbum()">💾 长按保存图片</button>
+                    <button class="poster-modal-btn share" onclick="sharePoster()">📤 分享朋友圈</button>
+                </div>
+                <div style="margin-top:10px;padding:12px;background:#fffbeb;border-radius:8px;font-size:12px;color:#999;">
+                    💡 保存图片后，长按图片选择"发送给朋友"或"分享到朋友圈"
+                </div>
             </div>
         </div>
         
@@ -1223,6 +1374,9 @@
             
             // 雷达图
             drawRadarChart(code);
+            
+            // 更新微信分享配置（动态 meta 标签）
+            updateWechatShare(code, style.name, style.animal);
         }
 
         function drawRadarChart(code) {
@@ -1332,17 +1486,12 @@
         }
 
         function previewPoster() {
-            // 生成海报并显示在新窗口
-            var code = document.getElementById('code').textContent;
-            var style = styles[code];
-            var canvas = document.getElementById('posterCanvas');
-            var ctx = canvas.getContext('2d');
-            
-            // 调用生成逻辑
-            generateAndShare(true);
+            // 生成海报并显示预览弹窗
+            generateAndShare('preview');
         }
         
-        function generateAndShare(previewOnly) {
+        function generateAndShare(mode) {
+            // mode: 'preview' (预览), 'download' (下载), 'share' (分享)
             var code = document.getElementById('code').textContent;
             var style = styles[code];
             var canvas = document.getElementById('posterCanvas');
@@ -1351,154 +1500,287 @@
             canvas.width = 600;
             canvas.height = 800;
             
+            // 更绚丽的渐变背景
             var gradient = ctx.createLinearGradient(0, 0, 0, 800);
             gradient.addColorStop(0, '#667eea');
-            gradient.addColorStop(1, '#764ba2');
+            gradient.addColorStop(0.5, '#764ba2');
+            gradient.addColorStop(1, '#f093fb');
             ctx.fillStyle = gradient;
             ctx.fillRect(0, 0, 600, 800);
             
-            ctx.fillStyle = 'rgba(255,255,255,0.1)';
+            // 装饰性光晕效果
+            ctx.fillStyle = 'rgba(255,255,255,0.15)';
             ctx.beginPath();
             ctx.arc(500, -50, 200, 0, Math.PI*2);
             ctx.fill();
             ctx.beginPath();
             ctx.arc(-50, 150, 150, 0, Math.PI*2);
             ctx.fill();
+            ctx.beginPath();
+            ctx.arc(600, 400, 180, 0, Math.PI*2);
+            ctx.fill();
+            
+            // 顶部装饰条
+            ctx.fillStyle = 'rgba(255,255,255,0.2)';
+            ctx.fillRect(0, 0, 600, 8);
             
             // 标题
             ctx.fillStyle = '#ffffff';
-            ctx.font = '20px sans-serif';
+            ctx.font = 'bold 22px sans-serif';
             ctx.textAlign = 'center';
-            ctx.fillText('我的采购谈判风格', 300, 50);
+            ctx.fillText('🎯 我的采购谈判风格', 300, 45);
             
-            // 风格代码（超大）
-            ctx.font = 'bold 90px sans-serif';
+            // 风格代码（超大 + 阴影效果）
+            ctx.shadowColor = 'rgba(0,0,0,0.3)';
+            ctx.shadowBlur = 10;
+            ctx.shadowOffsetX = 0;
+            ctx.shadowOffsetY = 4;
+            ctx.font = 'bold 100px sans-serif';
             var codeGrad = ctx.createLinearGradient(0,80,600,80);
             codeGrad.addColorStop(0,'#ffffff');
-            codeGrad.addColorStop(1,'#e0e7ff');
+            codeGrad.addColorStop(1,'#f0f0ff');
             ctx.fillStyle = codeGrad;
-            ctx.fillText(code, 300, 150);
+            ctx.fillText(code, 300, 155);
+            ctx.shadowBlur = 0;
+            ctx.shadowOffsetX = 0;
+            ctx.shadowOffsetY = 0;
             
             // 风格名
-            ctx.font = 'bold 36px sans-serif';
+            ctx.font = 'bold 38px sans-serif';
             ctx.fillStyle = '#ffffff';
-            ctx.fillText(style.name, 300, 200);
+            ctx.fillText(style.name, 300, 210);
             
             // 角色定位
-            ctx.font = '16px sans-serif';
+            ctx.font = '18px sans-serif';
             ctx.fillStyle = 'rgba(255,255,255,0.9)';
-            ctx.fillText(style.role, 300, 230);
+            ctx.fillText(style.role, 300, 245);
             
-            // 动物图标
-            ctx.font = '70px sans-serif';
-            ctx.fillText(style.animal, 300, 310);
+            // 动物图标（带背景圆）
+            ctx.fillStyle = 'rgba(255,255,255,0.2)';
+            ctx.beginPath();
+            ctx.arc(300, 310, 60, 0, Math.PI*2);
+            ctx.fill();
+            ctx.font = '80px sans-serif';
+            ctx.fillStyle = '#ffffff';
+            ctx.fillText(style.animal, 300, 340);
             
             // 稀有度徽章（仅稀有时显示）
             var rarityEl = document.getElementById('rarity');
             if (rarityEl && rarityEl.textContent && rarityEl.textContent !== '约 5%') {
-                ctx.fillStyle = 'rgba(255,255,255,0.95)';
+                // 徽章背景
+                var badgeGrad = ctx.createLinearGradient(150, 370, 450, 370);
+                badgeGrad.addColorStop(0, 'rgba(251,191,36,0.9)');
+                badgeGrad.addColorStop(1, 'rgba(245,158,11,0.9)');
+                ctx.fillStyle = badgeGrad;
                 if (ctx.roundRect) {
-                    ctx.roundRect(150, 350, 300, 60, 30);
+                    ctx.roundRect(150, 370, 300, 65, 33);
                 } else {
-                    ctx.fillRect(150, 350, 300, 60);
+                    ctx.fillRect(150, 370, 300, 65);
                 }
                 ctx.fill();
-                ctx.fillStyle = '#f59e0b';
-                ctx.font = 'bold 20px sans-serif';
-                ctx.fillText('🏆 ' + rarityEl.textContent, 300, 388);
+                
+                // 徽章文字
+                ctx.fillStyle = '#ffffff';
+                ctx.font = 'bold 22px sans-serif';
+                ctx.fillText('🏆 稀有 ' + rarityEl.textContent, 300, 410);
             }
             
             // 排名信息
             var beatEl = document.getElementById('beatPercent');
-            ctx.fillStyle = 'rgba(255,255,255,0.9)';
-            ctx.font = '16px sans-serif';
-            ctx.fillText('击败了 ' + beatEl.textContent + '% 的采购同行', 300, 430);
+            ctx.fillStyle = 'rgba(255,255,255,0.95)';
+            ctx.font = 'bold 18px sans-serif';
+            ctx.fillText('击败了 ' + beatEl.textContent + '% 的采购同行', 300, 465);
+            
+            // 分隔线
+            ctx.strokeStyle = 'rgba(255,255,255,0.3)';
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(100, 485);
+            ctx.lineTo(500, 485);
+            ctx.stroke();
             
             // 独特价值
             var coreEl = document.getElementById('coreValueDesc');
             if (coreEl && coreEl.textContent) {
-                ctx.fillStyle = 'rgba(255,255,255,0.85)';
-                ctx.font = '14px sans-serif';
-                wrapText(ctx, coreEl.textContent, 50, 470, 500, 22);
+                ctx.fillStyle = 'rgba(255,255,255,0.9)';
+                ctx.font = '15px sans-serif';
+                wrapText(ctx, coreEl.textContent, 60, 520, 480, 24);
             }
             
-            // 行动号召区域
-            ctx.fillStyle = 'rgba(255,255,255,0.95)';
+            // 行动号召区域（白色卡片）
+            ctx.fillStyle = 'rgba(255,255,255,0.98)';
             if (ctx.roundRect) {
-                ctx.roundRect(50, 550, 500, 180, 16);
+                ctx.roundRect(40, 570, 520, 190, 16);
             } else {
-                ctx.fillRect(50, 550, 500, 180);
+                ctx.fillRect(40, 570, 520, 190);
             }
             ctx.fill();
             
-            // 行动号召文案
+            // 行动号召主文案
             ctx.fillStyle = '#667eea';
-            ctx.font = 'bold 20px sans-serif';
-            ctx.fillText('你的谈判风格是什么？', 300, 590);
+            ctx.font = 'bold 24px sans-serif';
+            ctx.fillText('你的谈判风格是什么？', 300, 610);
             
             ctx.fillStyle = '#666';
-            ctx.font = '14px sans-serif';
-            ctx.fillText('扫码测试，看看我们匹配度如何', 300, 620);
+            ctx.font = '16px sans-serif';
+            ctx.fillText('扫码测试，看看我们匹配度如何', 300, 645);
             
             // 社交证明
             ctx.fillStyle = '#999';
-            ctx.font = '12px sans-serif';
-            ctx.fillText('已有 1,234 位采购参与测试', 300, 650);
+            ctx.font = 'bold 13px sans-serif';
+            ctx.fillText('🔥 已有 10,000+ 位采购参与测试', 300, 680);
             
-            // 二维码占位
-            ctx.fillStyle = '#f0f0f0';
+            // 二维码区域（带边框和装饰）
+            ctx.strokeStyle = '#667eea';
+            ctx.lineWidth = 3;
             if (ctx.roundRect) {
-                ctx.roundRect(225, 670, 150, 150, 8);
+                ctx.roundRect(215, 695, 170, 170, 10);
             } else {
-                ctx.fillRect(225, 670, 150, 150);
+                ctx.strokeRect(215, 695, 170, 170);
+            }
+            ctx.stroke();
+            
+            // 二维码占位背景
+            ctx.fillStyle = '#f8f9ff';
+            if (ctx.roundRect) {
+                ctx.roundRect(220, 700, 160, 160, 8);
+            } else {
+                ctx.fillRect(220, 700, 160, 160);
             }
             ctx.fill();
+            
+            // 二维码中心图标
             ctx.fillStyle = '#667eea';
-            ctx.font = 'bold 40px sans-serif';
-            ctx.fillText('📱', 300, 755);
+            ctx.font = 'bold 50px sans-serif';
+            ctx.fillText('📱', 300, 785);
             
             // 品牌信息
-            ctx.fillStyle = '#999';
-            ctx.font = '11px sans-serif';
-            ctx.fillText('优链学堂 · 供应链首席训练导师', 300, 785);
+            ctx.fillStyle = 'rgba(255,255,255,0.8)';
+            ctx.font = 'bold 12px sans-serif';
+            ctx.fillText('优链学堂 · 供应链首席训练导师', 300, 795);
             
             // 触发下载或预览
             try {
                 var dataUrl = canvas.toDataURL('image/png');
                 
-                if (previewOnly) {
-                    // 预览模式：在新窗口显示
-                    var newWindow = window.open();
-                    newWindow.document.write('<img src="' + dataUrl + '" style="max-width:100%;">');
-                    newWindow.document.write('<div style="text-align:center;padding:20px;"><button onclick="window.print()" style="padding:10px 20px;font-size:16px;">🖨️ 打印/保存</button></div>');
+                if (mode === 'preview' || mode === 'share') {
+                    // 预览模式：显示弹窗
+                    showPosterModal(dataUrl, code, style);
                 } else {
-                    // 下载模式
-                    var link = document.createElement('a');
-                    link.download = '我的谈判风格-' + code + '.png';
-                    link.href = dataUrl;
-                    document.body.appendChild(link);
-                    link.click();
-                    document.body.removeChild(link);
-                    
-                    // 生成分享文案
-                    var shareText = '我是 ' + code + ' ' + style.name + '，击败了 ' + beatEl.textContent + '% 的采购同行！\n\n' + style.role + '\n\n快来测测你的谈判风格，看看我们匹配度如何～';
-                    
-                    setTimeout(function() {
-                        if (navigator.clipboard) {
-                            navigator.clipboard.writeText(shareText).then(function() {
-                                alert('🎉 海报已保存到相册！\n\n分享文案已复制，可直接粘贴发送朋友圈：\n\n' + shareText);
-                            }).catch(function() {
-                                alert('🎉 海报已保存！\n长按图片即可分享～');
-                            });
-                        } else {
-                            alert('🎉 海报已保存！\n分享文案：\n\n' + shareText);
-                        }
-                    }, 500);
+                    // 下载模式（兼容旧版）
+                    downloadPoster(dataUrl, code, style, beatEl);
                 }
             } catch(e) {
                 console.error('海报生成失败:', e);
                 alert('海报生成失败，请截图保存结果页面～');
             }
+        }
+        
+        // 显示海报预览弹窗
+        function showPosterModal(dataUrl, code, style) {
+            var modal = document.getElementById('posterModal');
+            var img = document.getElementById('posterPreviewImg');
+            img.src = dataUrl;
+            modal.classList.add('show');
+            
+            // 保存当前海报数据到全局
+            window.currentPosterData = {
+                dataUrl: dataUrl,
+                code: code,
+                style: style,
+                beatPercent: document.getElementById('beatPercent').textContent
+            };
+        }
+        
+        // 关闭海报弹窗
+        function closePosterModal(event) {
+            if (!event || event.target === document.getElementById('posterModal')) {
+                document.getElementById('posterModal').classList.remove('show');
+            }
+        }
+        
+        // 保存海报到相册
+        function savePosterToAlbum() {
+            if (!window.currentPosterData) return;
+            
+            var dataUrl = window.currentPosterData.dataUrl;
+            var code = window.currentPosterData.code;
+            
+            // 创建下载链接
+            var link = document.createElement('a');
+            link.download = '我的谈判风格-' + code + '.png';
+            link.href = dataUrl;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            
+            // 移动端提示
+            if (/Mobile|Android|iPhone/i.test(navigator.userAgent)) {
+                alert('✅ 图片已下载！\n\n📱 在相册中找到图片，长按选择：\n1. 发送给朋友\n2. 分享到朋友圈');
+            } else {
+                alert('✅ 海报已保存！\n\n右键图片可分享到微信或朋友圈');
+            }
+        }
+        
+        // 分享海报
+        function sharePoster() {
+            if (!window.currentPosterData) return;
+            
+            var data = window.currentPosterData;
+            var style = data.style;
+            
+            // 生成分享文案
+            var shareText = '我是 ' + data.code + ' ' + style.name + '，击败了 ' + data.beatPercent + '% 的采购同行！\n\n' + style.role + '\n\n快来测测你的谈判风格，看看我们匹配度如何～\n\nhttps://yugao2.github.io/negotiation-test/';
+            
+            // 尝试使用 Web Share API（移动端）
+            if (navigator.share && /Mobile|Android|iPhone/i.test(navigator.userAgent)) {
+                // 将 dataUrl 转为 Blob
+                fetch(data.dataUrl)
+                    .then(res => res.blob())
+                    .then(blob => {
+                        var file = new File([blob], 'negotiation-style.png', { type: 'image/png' });
+                        navigator.share({
+                            title: '我的谈判风格测试',
+                            text: shareText,
+                            files: [file]
+                        }).catch(function() {});
+                    });
+            } else {
+                // 复制到剪贴板
+                if (navigator.clipboard) {
+                    navigator.clipboard.writeText(shareText).then(function() {
+                        alert('✅ 分享文案已复制！\n\n打开微信 → 粘贴发送给朋友或朋友圈\n\n图片请从预览窗口长按保存');
+                    });
+                } else {
+                    alert('分享文案：\n\n' + shareText);
+                }
+            }
+        }
+        
+        // 下载海报（旧版兼容）
+        function downloadPoster(dataUrl, code, style, beatEl) {
+            var link = document.createElement('a');
+            link.download = '我的谈判风格-' + code + '.png';
+            link.href = dataUrl;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            
+            // 生成分享文案
+            var shareText = '我是 ' + code + ' ' + style.name + '，击败了 ' + beatEl.textContent + '% 的采购同行！\n\n' + style.role + '\n\n快来测测你的谈判风格，看看我们匹配度如何～';
+            
+            setTimeout(function() {
+                if (navigator.clipboard) {
+                    navigator.clipboard.writeText(shareText).then(function() {
+                        alert('🎉 海报已保存到相册！\n\n分享文案已复制，可直接粘贴发送朋友圈：\n\n' + shareText);
+                    }).catch(function() {
+                        alert('🎉 海报已保存！\n长按图片即可分享～');
+                    });
+                } else {
+                    alert('🎉 海报已保存！\n分享文案：\n\n' + shareText);
+                }
+            }, 500);
+        }
         }
 
         function wrapText(ctx, text, x, y, maxWidth, lineHeight) {
@@ -1537,6 +1819,21 @@
             currentIndex = 0;
             document.getElementById('resultPage').classList.add('hidden');
             document.getElementById('homePage').classList.remove('hidden');
+        }
+
+        // 快速版/完整版切换
+        function showFullReport() {
+            document.getElementById('quickVersion').classList.add('hidden');
+            document.getElementById('fullVersion').classList.remove('hidden');
+            // 滚动到顶部
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function showQuickVersion() {
+            document.getElementById('quickVersion').classList.remove('hidden');
+            document.getElementById('fullVersion').classList.add('hidden');
+            // 滚动到顶部
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
         function updateProgress() {
