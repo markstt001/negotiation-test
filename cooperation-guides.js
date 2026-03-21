@@ -244,7 +244,7 @@ const styleDefinitions = {
   ATBP: { A: true, T: true, B: true, P: true, name: "务实协调者" },
   IRCD: { I: true, R: true, C: true, D: true, name: "创新开拓者" },
   IRCP: { I: true, R: true, C: true, P: true, name: "愿景推动者" },
-  IRBD: { I: true, R: true, B: true, D: true, name: "人脉冒险家" },
+  IRBD: { I: true, R: true, B: true, D: true, name: "风险投资者" },
   IRBP: { I: true, R: true, B: true, P: true, name: "信任 builder" },
   ITCD: { I: true, T: true, C: true, D: true, name: "数据猎手" },
   ITCP: { I: true, T: true, C: true, P: true, name: "果断执行者" },
