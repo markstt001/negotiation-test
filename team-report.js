@@ -317,7 +317,9 @@ function generateTeamReport(members) {
   };
 }
 
-// 导出函数
-window.generateTeamReport = generateTeamReport;
-window.teamReportConfig = teamReportConfig;
-window.styleDefinitions = styleDefinitions;
+// 暴露到全局作用域
+if (typeof window !== 'undefined') {
+  window.generateTeamReport = generateTeamReport;
+  window.teamReportConfig = teamReportConfig;
+  window.styleDefinitions = styleDefinitions;
+}

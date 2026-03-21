@@ -460,11 +460,13 @@ const bestMatchDeep = {
   }
 };
 
-// 导出函数
+// 导出函数 - 浏览器全局
 function getBestMatchDeep(styleCode) {
   return bestMatchDeep[styleCode] || null;
 }
 
-// 兼容浏览器全局
-window.bestMatchDeep = bestMatchDeep;
-window.getBestMatchDeep = getBestMatchDeep;
+// 暴露到全局作用域
+if (typeof window !== 'undefined') {
+  window.bestMatchDeep = bestMatchDeep;
+  window.getBestMatchDeep = getBestMatchDeep;
+}
