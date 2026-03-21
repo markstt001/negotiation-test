@@ -230,6 +230,24 @@
                     </div>
                 </div>
                 
+                <!-- 合作说明书查询 -->
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">🔍 合作说明书查询</div>
+                    </div>
+                    <div class="card-body">
+                        <p style="color:#86868b;font-size:14px;margin-bottom:16px;">想知道如何跟 XX 风格合作？输入对方的风格代码，生成专属合作指南</p>
+                        <div style="display:flex;gap:10px;margin-bottom:16px;">
+                            <input type="text" id="partnerCodeInput" class="modal-input" placeholder="ARCD / ARBP / ..." style="flex:1;margin:0;padding:14px;font-size:16px;letter-spacing:2px;" maxlength="4">
+                            <button class="btn-action" onclick="queryCooperation()" style="margin:0;padding:14px 28px;white-space:nowrap;">查询</button>
+                        </div>
+                        <div id="cooperationResult" class="hidden" style="margin-top:20px;"></div>
+                        <p style="color:#86868b;font-size:13px;margin-top:12px;text-align:center;">
+                            或者 <a href="#" onclick="shareTestLink()" style="color:#0071e3;">分享给朋友</a>，让他测出真实风格 →
+                        </p>
+                    </div>
+                </div>
+                
                 <!-- 神秘标签 -->
                 <div class="card">
                     <div class="card-header">
@@ -293,6 +311,7 @@
                     <div class="team-title">👥 团队功能</div>
                     <button class="team-btn" onclick="showJoinTeamModal()">加入团队</button>
                     <button class="team-btn" onclick="createTeamFromResult()">创建团队</button>
+                    <button class="team-btn" onclick="showTeamReportModal()" style="border-color:#0071e3;color:#0071e3;">📊 团队配置报告（99 元）</button>
                 </div>
                 
                 <button class="btn-action btn-secondary" onclick="retakeTest()" style="margin-top: 24px;">重新测试</button>
@@ -345,6 +364,40 @@
         </div>
     </div>
     
+    <!-- 团队配置报告弹窗 -->
+    <div id="teamReportModal" class="hidden modal">
+        <div class="modal-content" style="max-width:600px;width:90%;text-align:left;">
+            <div class="modal-title" style="text-align:center;">📊 团队配置报告</div>
+            <p style="color:#86868b;margin-bottom:20px;font-size:14px;text-align:center;">输入团队成员风格，生成专业团队配置报告</p>
+            
+            <div id="teamReportPreview" style="margin-bottom:20px;">
+                <div style="background:#2c2c2e;padding:20px;border-radius:12px;margin-bottom:16px;">
+                    <div style="font-size:16px;font-weight:700;color:#fff;margin-bottom:12px;">免费预览</div>
+                    <div id="teamPreviewContent" style="color:#fff;font-size:14px;line-height:1.8;">
+                        请至少输入 3 位团队成员的风格代码...
+                    </div>
+                </div>
+            </div>
+            
+            <div style="background:linear-gradient(135deg, #0071e3, #005bb5);padding:20px;border-radius:12px;margin-bottom:20px;">
+                <div style="font-size:16px;font-weight:700;color:#fff;margin-bottom:8px;">💎 付费解锁完整报告</div>
+                <div style="color:rgba(255,255,255,0.9);font-size:13px;line-height:1.6;margin-bottom:12px;">
+                    ✅ 详细团队风格分布分析<br>
+                    ✅ 优势与盲点深度解读<br>
+                    ✅ 最佳拍档配对建议<br>
+                    ✅ 招聘/培训优先级<br>
+                    ✅ 项目配置方案<br>
+                    ✅ 姜老师课程推荐<br>
+                    ✅ PDF 报告下载
+                </div>
+                <div style="font-size:24px;font-weight:800;color:#fff;margin:16px 0;">¥99 <span style="font-size:14px;font-weight:400;">/ 团队</span></div>
+                <button class="modal-btn" onclick="unlockTeamReport()" style="background:#fff;color:#0071e3;">立即解锁</button>
+            </div>
+            
+            <button class="modal-btn btn-secondary" onclick="closeTeamReportModal()">取消</button>
+        </div>
+    </div>
+    
     <canvas id="posterCanvas" style="display: none;"></canvas>
     
     <script src="poster-themes.js?v=202603202300"></script>
@@ -354,6 +407,9 @@
     <script src="enhanced-weaknesses-v2.js?v=202603202300"></script>
     <script src="celebrity-stories.js?v=202603202300"></script>
     <script src="mystery-tags.js?v=202603202300"></script>
+    <script src="best-match-deep.js?v=202603210920"></script>
+    <script src="cooperation-guides.js?v=202603210920"></script>
+    <script src="team-report.js?v=202603210930"></script>
     <script>
         var currentIndex = 0;
         var answers = [];
@@ -671,6 +727,198 @@
             } else {
                 document.getElementById('myTeam').innerHTML = '<div style="text-align:center;color:#86868b;padding:40px;">暂无团队</div>';
             }
+        }
+        
+        // 合作说明书查询功能
+        function queryCooperation() {
+            var partnerCode = document.getElementById('partnerCodeInput').value.trim().toUpperCase();
+            if (!partnerCode || partnerCode.length !== 4) {
+                alert('请输入 4 位风格代码（如 ARCD）');
+                return;
+            }
+            
+            var myCode = currentResult ? currentResult.code : null;
+            if (!myCode) {
+                alert('请先完成测试或查看测试结果');
+                return;
+            }
+            
+            var guide = getCooperationGuide(myCode, partnerCode);
+            if (!guide) {
+                alert('未找到该风格代码，请检查输入');
+                return;
+            }
+            
+            var resultDiv = document.getElementById('cooperationResult');
+            var html = `
+                <div class="card" style="background:linear-gradient(135deg, #2c2c2e, #1c1c1e);border:2px solid #0071e3;">
+                    <div class="card-body">
+                        <div style="font-size:18px;font-weight:700;color:#fff;margin-bottom:8px;">📋 ${myCode} × ${partnerCode} 合作说明书</div>
+                        <div style="font-size:13px;color:#86868b;margin-bottom:20px;">组合类型：${guide.type} · ${guide.role}</div>
+                        
+                        <div style="margin-bottom:20px;">
+                            <div style="font-size:14px;font-weight:600;color:#fff;margin-bottom:10px;">【角色分工】</div>
+                            <div style="font-size:14px;color:#fff;line-height:1.8;">
+                                你（${myCode} ${styleDefinitions[myCode].name}）：${guide.yourRole}<br>
+                                他（${partnerCode} ${styleDefinitions[partnerCode].name}）：${guide.theirRole}
+                            </div>
+                        </div>
+                        
+                        <div style="margin-bottom:20px;">
+                            <div style="font-size:14px;font-weight:600;color:#fff;margin-bottom:10px;">【合作优势】</div>
+                            ${guide.advantages.map(a => `<div style="font-size:14px;color:#fff;line-height:1.6;margin:6px 0;">✅ ${a}</div>`).join('')}
+                        </div>
+                        
+                        <div style="margin-bottom:20px;">
+                            <div style="font-size:14px;font-weight:600;color:#fff;margin-bottom:10px;">【冲突预警】</div>
+                            <div style="font-size:14px;color:#fff;line-height:1.6;">⚠️ ${guide.conflicts}</div>
+                        </div>
+                        
+                        <div style="margin-bottom:20px;">
+                            <div style="font-size:14px;font-weight:600;color:#fff;margin-bottom:10px;">【合作秘籍】</div>
+                            <div style="font-size:14px;color:#0071e3;line-height:1.6;font-weight:600;">💡 ${guide.solution}</div>
+                        </div>
+                        
+                        <div style="text-align:center;margin-top:24px;padding-top:20px;border-top:1px solid #333;">
+                            <div style="font-size:16px;font-weight:700;color:#0071e3;">"${guide.quote}"</div>
+                        </div>
+                        
+                        <button class="btn-action btn-secondary" onclick="shareCooperationGuide('${myCode}', '${partnerCode}')" style="margin-top:20px;">📤 分享给 TA</button>
+                    </div>
+                </div>
+            `;
+            resultDiv.innerHTML = html;
+            resultDiv.classList.remove('hidden');
+            
+            // 滚动到结果
+            resultDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+        
+        // 分享合作说明书
+        function shareCooperationGuide(code1, code2) {
+            var text = `我是${code1} ${styleDefinitions[code1].name}，你是${code2} ${styleDefinitions[code2].name}。\n\n我们的合作说明书：${guide.quote}\n\n快来测测你的谈判风格：https://yugao2.github.io/negotiation-test/`;
+            
+            if (navigator.share) {
+                navigator.share({
+                    title: '合作说明书',
+                    text: text,
+                    url: 'https://yugao2.github.io/negotiation-test/'
+                }).catch(console.error);
+            } else {
+                // 复制到剪贴板
+                navigator.clipboard.writeText(text).then(function() {
+                    alert('已复制到剪贴板，可以粘贴分享给朋友了！');
+                }, function() {
+                    alert('复制失败，请手动复制：\n\n' + text);
+                });
+            }
+        }
+        
+        // 分享测试链接
+        function shareTestLink() {
+            var text = `我刚测了采购谈判风格，结果是${currentResult ? currentResult.code + ' ' + currentResult.style.name : ''}！\n\n你也来测测：https://yugao2.github.io/negotiation-test/`;
+            
+            if (navigator.share) {
+                navigator.share({
+                    title: '采购谈判风格测试',
+                    text: text,
+                    url: 'https://yugao2.github.io/negotiation-test/'
+                }).catch(console.error);
+            } else {
+                navigator.clipboard.writeText(text).then(function() {
+                    alert('已复制到剪贴板，可以粘贴分享了！');
+                }, function() {
+                    alert('复制失败，请手动复制：\n\n' + text);
+                });
+            }
+        }
+        
+        // 团队配置报告功能
+        function showTeamReportModal() {
+            document.getElementById('teamReportModal').classList.remove('hidden');
+            updateTeamReportPreview();
+        }
+        
+        function closeTeamReportModal() {
+            document.getElementById('teamReportModal').classList.add('hidden');
+        }
+        
+        function updateTeamReportPreview() {
+            var savedTeam = localStorage.getItem('currentTeam');
+            if (!savedTeam) {
+                document.getElementById('teamPreviewContent').innerHTML = '请先创建或加入团队，然后来查看团队配置报告。';
+                return;
+            }
+            
+            var team = JSON.parse(savedTeam);
+            if (!team.members || team.members.length < 3) {
+                document.getElementById('teamPreviewContent').innerHTML = `当前团队有${team.members ? team.members.length : 0}人，请至少录入 3 位成员的风格代码才能生成报告。<br><br><button class="btn-action" onclick="addTeamMember()" style="margin-top:12px;padding:12px 24px;font-size:14px;">+ 添加成员</button>`;
+                return;
+            }
+            
+            // 生成预览
+            var report = generateTeamReport(team.members);
+            if (!report) {
+                document.getElementById('teamPreviewContent').innerHTML = '生成报告失败，请重试。';
+                return;
+            }
+            
+            var html = `
+                <div style="margin-bottom:16px;">
+                    <div style="font-size:14px;color:#86868b;margin-bottom:8px;">团队规模</div>
+                    <div style="font-size:18px;font-weight:700;color:#fff;">${report.teamSize} 人</div>
+                </div>
+                
+                <div style="margin-bottom:16px;">
+                    <div style="font-size:14px;color:#86868b;margin-bottom:8px;">团队优势（预览）</div>
+                    ${report.advantages.slice(0, 2).map(a => `<div style="font-size:13px;color:#fff;line-height:1.6;margin:4px 0;">✅ ${a.title}</div>`).join('')}
+                </div>
+                
+                <div style="margin-bottom:16px;">
+                    <div style="font-size:14px;color:#86868b;margin-bottom:8px;">团队盲点（预览）</div>
+                    ${report.blindspots.slice(0, 2).map(b => `<div style="font-size:13px;color:#f5a623;line-height:1.6;margin:4px 0;">⚠️ ${b.title}</div>`).join('')}
+                </div>
+                
+                <button class="btn-action" onclick="unlockTeamReport()" style="margin-top:12px;padding:12px 24px;font-size:14px;">💎 99 元解锁完整报告</button>
+            `;
+            
+            document.getElementById('teamPreviewContent').innerHTML = html;
+        }
+        
+        function addTeamMember() {
+            var code = prompt('请输入成员的风格代码（如 ARCD）：');
+            if (!code || code.length !== 4) {
+                alert('请输入 4 位风格代码');
+                return;
+            }
+            
+            var name = prompt('请输入成员姓名：');
+            if (!name) name = '成员' + (Math.floor(Math.random() * 100) + 1);
+            
+            var savedTeam = localStorage.getItem('currentTeam');
+            var team = savedTeam ? JSON.parse(savedTeam) : { name: '我的团队', members: [] };
+            
+            team.members.push({ name: name, code: code.toUpperCase() });
+            localStorage.setItem('currentTeam', JSON.stringify(team));
+            
+            alert('添加成功！');
+            updateTeamReportPreview();
+        }
+        
+        function unlockTeamReport() {
+            // 模拟支付流程
+            var confirmPay = confirm('确认支付 ¥99 解锁团队配置报告？\n\n支付方式：微信支付 / 支付宝\n\n（这是模拟支付，实际需接入支付 API）');
+            if (!confirmPay) return;
+            
+            // 模拟支付成功
+            alert('🎉 支付成功！\n\n完整报告已生成，您可以：\n1. 查看完整团队分析\n2. 下载 PDF 报告\n3. 分享给团队成员\n\n报告已保存到"我的"页面。');
+            
+            // 标记为已购买
+            localStorage.setItem('teamReportPurchased', 'true');
+            closeTeamReportModal();
+            
+            // 跳转到我的页面查看报告
+            goToMyPage();
         }
         
         function clearAllData() {
