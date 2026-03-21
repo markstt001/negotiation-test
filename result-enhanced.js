@@ -1,224 +1,184 @@
-// 核心价值、稀有度、适配场景生成器
+// 结果页显示优化脚本 v2.0
+// 用于修复最佳搭档和合作说明书的显示问题
 
-// 1. 核心价值 - 根据风格定义独特商业价值
-function getCoreValue(code) {
-    var coreValues = {
-        ARCD: {
-            title: '数据驱动的降本专家',
-            desc: '你擅长从海量数据中发现隐藏的降本机会，用分析能力为公司创造真实价值。老板最放心的"守门员"。',
-            value: '年省潜力：中高（约 12-20%）'
-        },
-        ARCP: {
-            title: '供应商关系专家',
-            desc: '你能让供应商心甘情愿让利，建立 5 年 + 的战略合作。关键时刻总有人脉支援。',
-            value: '年省潜力：中（约 8-15%）+ 隐性价值高'
-        },
-        ARBD: {
-            title: '风险管控专家',
-            desc: '你避免的损失可能比省下的钱更多。合同审查细致，能避开 90% 的潜在风险。',
-            value: '年省潜力：中（约 8-15%）+ 风险规避价值高'
-        },
-        ARBP: {
-            title: '跨部门协作专家',
-            desc: '你能化解采购与业务、财务的矛盾，让复杂项目顺利推进。团队的"情绪稳定器"。',
-            value: '年省潜力：中低（约 5-12%）+ 协作价值高'
-        },
-        ATCD: {
-            title: '流程优化专家',
-            desc: '你建立的采购体系能让效率提升 30%+。流程是你的武器，标准化是你的信仰。',
-            value: '年省潜力：中（约 10-18%）+ 效率价值高'
-        },
-        ATCP: {
-            title: '成本分析专家',
-            desc: '你能把成本拆到原子级别，让供应商无处遁形。量化管控是你的超能力。',
-            value: '年省潜力：高（约 15-25%）'
-        },
-        ATBD: {
-            title: '结果导向的执行者',
-            desc: '老板说降本 15%，你就能做到 15%。你的字典里没有"困难"，只有"完成"。',
-            value: '年省潜力：高（约 15-25%）'
-        },
-        ATBP: {
-            title: '项目落地专家',
-            desc: '再复杂的采购项目，你都能落地。你是老板决策的执行者，团队信赖的推进器。',
-            value: '年省潜力：中（约 10-18%）'
-        },
-        IRCD: {
-            title: '供应链创新者',
-            desc: '你能发现别人看不到的创新机会，用颠覆思维重新定义采购价值。',
-            value: '年省潜力：不确定（可能 0% 或 50%）+ 创新价值高'
-        },
-        IRCP: {
-            title: '资源整合专家',
-            desc: '你的人脉就是钱脉。你能整合上下游资源，创造 1+1>2 的价值。',
-            value: '年省潜力：中（约 10-18%）+ 资源价值高'
-        },
-        IRBD: {
-            title: '战略机会捕手',
-            desc: '你敢在别人不敢的时候下注，抓住别人抓不住的机会。赌徒 + 先知。',
-            value: '年省潜力：不确定（可能 -10% 或 100%）'
-        },
-        IRBP: {
-            title: '影响力领导者',
-            desc: '你靠魅力和影响力推动事情，能激励团队和供应商一起向前。天生的领导者。',
-            value: '年省潜力：中（约 10-18%）+ 领导力价值高'
-        },
-        ITCD: {
-            title: '市场趋势洞察者',
-            desc: '你能预判市场走向，提前布局。你的洞察能让公司避开风险、抓住机会。',
-            value: '年省潜力：中高（约 12-22%）+ 预判价值高'
-        },
-        ITCP: {
-            title: '敏捷响应专家',
-            desc: '变化是你的朋友。你能在紧急情况下快速找到解决方案，是团队的"救火队长"。',
-            value: '年省潜力：中（约 8-15%）+ 响应价值高'
-        },
-        ITBD: {
-            title: '变革推动者',
-            desc: '你敢打破现状，推动别人不敢推动的变革。你的勇气能带来突破性进展。',
-            value: '年省潜力：不确定（可能 -5% 或 40%）'
-        },
-        ITBP: {
-            title: '平衡型管理者',
-            desc: '你能在复杂环境中找到最优解，驾驭多方利益。平衡是你的艺术。',
-            value: '年省潜力：中（约 10-18%）'
+// 优化最佳搭档显示
+function renderBestMatchOptimized(code) {
+    var bestMatchData = getBestMatchDeep(code);
+    var el = document.getElementById('bestMatch');
+    if (!el) {
+        console.error('找不到 bestMatch 元素');
+        return;
+    }
+    
+    if (!bestMatchData) {
+        el.innerHTML = '<div style="color:#86868b;text-align:center;padding:40px;">未找到最佳搭档数据</div>';
+        return;
+    }
+    
+    var html = '';
+    
+    // 标题卡片 - 绿色渐变
+    html += '<div style="background:linear-gradient(135deg, #34c759, #30b35a);padding:20px;border-radius:12px;margin-bottom:20px;box-shadow:0 4px 20px rgba(52,199,89,0.3);">';
+    html += '<div style="font-size:20px;font-weight:800;color:#fff;margin-bottom:6px;">🤝 ' + bestMatchData.match + ' ' + bestMatchData.matchName + '</div>';
+    html += '<div style="font-size:13px;color:rgba(255,255,255,0.9);">角色：' + bestMatchData.role + '</div>';
+    html += '</div>';
+    
+    // 为什么是你们 - 蓝色左边框
+    html += '<div style="background:#2c2c2e;padding:18px;border-radius:12px;margin-bottom:16px;border-left:4px solid #0071e3;">';
+    html += '<div style="font-size:14px;font-weight:700;color:#fff;margin-bottom:10px;">💡 为什么是你们</div>';
+    html += '<div style="font-size:14px;color:#fff;line-height:1.9;white-space:pre-line;">' + bestMatchData.why + '</div>';
+    html += '</div>';
+    
+    // 合作场景 - 青色左边框
+    html += '<div style="background:#2c2c2e;padding:18px;border-radius:12px;margin-bottom:16px;border-left:4px solid #5ac8fa;">';
+    html += '<div style="font-size:14px;font-weight:700;color:#fff;margin-bottom:10px;">✅ 合作场景</div>';
+    html += '<div style="font-size:14px;color:#fff;line-height:1.9;white-space:pre-line;">' + bestMatchData.scenarios + '</div>';
+    html += '</div>';
+    
+    // 小心踩坑 - 橙色左边框
+    html += '<div style="background:#2c2c2e;padding:18px;border-radius:12px;margin-bottom:16px;border-left:4px solid #f5a623;">';
+    html += '<div style="font-size:14px;font-weight:700;color:#fff;margin-bottom:10px;">⚠️ 小心踩坑</div>';
+    html += '<div style="font-size:14px;color:#fff;line-height:1.9;white-space:pre-line;">' + bestMatchData.pitfalls + '</div>';
+    html += '</div>';
+    
+    // 沟通秘籍 - 绿色左边框
+    html += '<div style="background:#2c2c2e;padding:18px;border-radius:12px;margin-bottom:20px;border-left:4px solid #34c759;">';
+    html += '<div style="font-size:14px;font-weight:700;color:#fff;margin-bottom:10px;">💬 沟通秘籍</div>';
+    html += '<div style="font-size:14px;color:#fff;line-height:1.9;white-space:pre-line;">' + bestMatchData.tips + '</div>';
+    html += '</div>';
+    
+    // 合作金句 - 特殊样式
+    html += '<div style="text-align:center;padding:20px;background:linear-gradient(135deg, rgba(52,199,89,0.15), rgba(48,179,90,0.1));border-radius:12px;border:2px solid rgba(52,199,89,0.3);">';
+    html += '<div style="font-size:13px;color:#86868b;margin-bottom:8px;">💎 合作金句</div>';
+    html += '<div style="font-size:17px;font-weight:700;color:#34c759;line-height:1.6;">"' + bestMatchData.goldenQuote + '"</div>';
+    html += '</div>';
+    
+    el.innerHTML = html;
+    console.log('最佳搭档渲染完成');
+}
+
+// 合作说明书查询
+function queryCooperationGuide(partnerCode) {
+    console.log('=== 开始查询合作说明书 ===');
+    console.log('partnerCode:', partnerCode);
+    console.log('currentResult:', currentResult);
+    console.log('getCooperationGuide:', typeof getCooperationGuide);
+    console.log('styleDefinitions:', typeof styleDefinitions);
+    
+    try {
+        // 检查依赖
+        if (typeof getCooperationGuide !== 'function') {
+            alert('查询功能未加载，请刷新页面重试');
+            return;
         }
-    };
-    
-    return coreValues[code] || { title: '独特的采购专家', desc: '你有自己的独特价值', value: '年省潜力：中' };
-}
-
-// 2. 稀有度 - 根据极端维度数量计算
-function calculateRarity(scores) {
-    var extremeCount = 0;
-    var dimensions = ['A', 'I', 'R', 'T', 'C', 'B', 'D', 'P'];
-    
-    // 计算两两组合的维度
-    var pairs = [
-        {name: '决策风格', dims: ['A', 'I']},
-        {name: '关系导向', dims: ['R', 'T']},
-        {name: '风险态度', dims: ['C', 'B']},
-        {name: '沟通方式', dims: ['D', 'P']}
-    ];
-    
-    for (var i = 0; i < pairs.length; i++) {
-        var pair = pairs[i];
-        var total = (scores[pair.dims[0]] || 0) + (scores[pair.dims[1]] || 0);
-        if (total === 0) continue;
         
-        var percent1 = (scores[pair.dims[0]] / total) * 100;
-        var percent2 = 100 - percent1;
-        
-        // 任一维度超过 80% 或低于 20% 算极端
-        if (percent1 >= 80 || percent1 <= 20 || percent2 >= 80 || percent2 <= 20) {
-            extremeCount++;
+        if (typeof styleDefinitions === 'undefined') {
+            alert('数据未加载，请刷新页面重试');
+            return;
         }
-    }
-    
-    // 根据极端数量定级
-    if (extremeCount >= 4) {
-        return {
-            show: true,
-            text: '万里挑一',
-            percent: '<0.1%',
-            beatPercent: 99.9,
-            rank: '前 100',
-            reason: '四个维度都极度偏向，这种组合极其罕见'
-        };
-    } else if (extremeCount >= 3) {
-        return {
-            show: true,
-            text: '千里挑一',
-            percent: '约 1%',
-            beatPercent: 99,
-            rank: '前 1,000',
-            reason: '三个维度极度偏向，这种组合非常罕见'
-        };
-    } else if (extremeCount >= 2) {
-        return {
-            show: true,
-            text: '百里挑一',
-            percent: '约 5%',
-            beatPercent: 95,
-            rank: '前 5,000',
-            reason: '两个维度极度偏向，这种组合比较少见'
-        };
-    } else {
-        // 不显示稀有度
-        return { show: false };
+        
+        var myCode = currentResult ? currentResult.code : null;
+        if (!myCode) {
+            alert('请先完成测试或查看测试结果');
+            return;
+        }
+        
+        // 获取合作指南
+        var guide = getCooperationGuide(myCode, partnerCode);
+        console.log('guide:', guide);
+        
+        if (!guide) {
+            alert('未找到合作指南');
+            return;
+        }
+        
+        var resultDiv = document.getElementById('cooperationResult');
+        if (!resultDiv) {
+            alert('页面元素未找到');
+            return;
+        }
+        
+        // 获取风格信息
+        var myStyle = styleDefinitions[myCode] || { name: '未知' };
+        var partnerStyle = styleDefinitions[partnerCode] || { name: '未知' };
+        
+        // 构建 HTML
+        var html = '<div class="card" style="background:linear-gradient(135deg, #2c2c2e, #1c1c1e);border:2px solid #0071e3;margin-top:20px;">';
+        html += '<div class="card-body" style="padding:20px;">';
+        
+        // 标题
+        html += '<div style="font-size:18px;font-weight:700;color:#fff;margin-bottom:8px;">📋 ' + myCode + ' × ' + partnerCode + ' 合作说明书</div>';
+        html += '<div style="font-size:13px;color:#86868b;margin-bottom:20px;">组合类型：' + guide.type + ' · ' + guide.role + '</div>';
+        
+        // 角色分工
+        html += '<div style="margin-bottom:20px;">';
+        html += '<div style="font-size:14px;font-weight:600;color:#fff;margin-bottom:10px;">【角色分工】</div>';
+        html += '<div style="font-size:14px;color:#fff;line-height:1.8;">';
+        html += '<div style="margin-bottom:8px;"><span style="color:#5ac8fa;">你</span>（' + myCode + ' ' + myStyle.name + '）：' + guide.yourRole + '</div>';
+        html += '<div><span style="color:#5ac8fa;">他</span>（' + partnerCode + ' ' + partnerStyle.name + '）：' + guide.theirRole + '</div>';
+        html += '</div></div>';
+        
+        // 合作优势
+        html += '<div style="margin-bottom:20px;">';
+        html += '<div style="font-size:14px;font-weight:600;color:#fff;margin-bottom:10px;">【合作优势】</div>';
+        for (var i = 0; i < guide.advantages.length; i++) {
+            html += '<div style="font-size:14px;color:#fff;line-height:1.6;margin:6px 0;">✅ ' + guide.advantages[i] + '</div>';
+        }
+        html += '</div>';
+        
+        // 冲突预警
+        html += '<div style="margin-bottom:20px;">';
+        html += '<div style="font-size:14px;font-weight:600;color:#fff;margin-bottom:10px;">【冲突预警】</div>';
+        html += '<div style="font-size:14px;color:#fff;line-height:1.6;background:rgba(245,166,35,0.1);padding:12px;border-radius:8px;">⚠️ ' + guide.conflicts + '</div></div>';
+        
+        // 合作秘籍
+        html += '<div style="margin-bottom:20px;">';
+        html += '<div style="font-size:14px;font-weight:600;color:#fff;margin-bottom:10px;">【合作秘籍】</div>';
+        html += '<div style="font-size:14px;color:#0071e3;line-height:1.6;font-weight:600;background:rgba(0,113,227,0.1);padding:12px;border-radius:8px;">💡 ' + guide.solution + '</div></div>';
+        
+        // 金句
+        html += '<div style="text-align:center;padding:16px;background:linear-gradient(135deg, rgba(0,113,227,0.15), rgba(91,200,250,0.1));border-radius:12px;border:1px solid rgba(0,113,227,0.3);">';
+        html += '<div style="font-size:16px;font-weight:700;color:#0071e3;">"' + guide.quote + '"</div></div>';
+        
+        // 分享按钮
+        html += '<button class="btn-action btn-secondary" onclick="shareCooperationGuide(\'' + myCode + '\', \'' + partnerCode + '\')" style="margin-top:20px;width:100%;">📤 分享给 TA</button>';
+        
+        html += '</div></div>';
+        
+        resultDiv.innerHTML = html;
+        resultDiv.classList.remove('hidden');
+        
+        // 滚动到结果
+        setTimeout(function() {
+            resultDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }, 100);
+        
+        console.log('=== 合作说明书渲染完成 ===');
+    } catch(e) {
+        console.error('查询失败:', e);
+        alert('查询失败：' + e.message + '\n\n请打开浏览器控制台（F12）查看详细信息');
     }
 }
 
-// 3. 适配场景 - 根据维度匹配
-function getFitScenes(code, scores) {
-    // 计算各维度得分比例
-    var aiTotal = (scores.A || 0) + (scores.I || 0);
-    var rtTotal = (scores.R || 0) + (scores.T || 0);
-    var cbTotal = (scores.C || 0) + (scores.B || 0);
-    var dpTotal = (scores.D || 0) + (scores.P || 0);
-    
-    var aPercent = aiTotal > 0 ? (scores.A / aiTotal) * 100 : 50;
-    var rPercent = rtTotal > 0 ? (scores.R / rtTotal) * 100 : 50;
-    var cPercent = cbTotal > 0 ? (scores.C / cbTotal) * 100 : 50;
-    var dPercent = dpTotal > 0 ? (scores.D / dpTotal) * 100 : 50;
-    
-    var fitScenes = {
-        good: [],  // 擅长场景
-        avoid: []  // 避免场景
-    };
-    
-    // 根据主导维度添加场景
-    if (aPercent >= 60) {
-        fitScenes.good.push('成本分析与建模');
-        fitScenes.good.push('供应商评估与选择');
-        fitScenes.avoid.push('紧急采购（需要快速决策）');
-    }
-    if (aPercent <= 40) {
-        fitScenes.good.push('机会捕捉与快速决策');
-        fitScenes.good.push('创新项目采购');
-        fitScenes.avoid.push('需要详细数据分析的复杂谈判');
-    }
-    
-    if (rPercent >= 60) {
-        fitScenes.good.push('长期战略合作谈判');
-        fitScenes.good.push('供应商纠纷调解');
-        fitScenes.good.push('跨部门协作项目');
-        fitScenes.avoid.push('强硬立场的最后通牒');
-    }
-    if (rPercent <= 40) {
-        fitScenes.good.push('结果导向的降本任务');
-        fitScenes.good.push('短期交易型采购');
-        fitScenes.avoid.push('需要耐心维护的长期关系');
-    }
-    
-    if (cPercent >= 60) {
-        fitScenes.good.push('合同审核与风险管控');
-        fitScenes.good.push('合规审查');
-        fitScenes.good.push('高金额/高风险采购');
-        fitScenes.avoid.push('需要快速决策的紧急场景');
-    }
-    if (cPercent <= 40) {
-        fitScenes.good.push('新供应商开发');
-        fitScenes.good.push('创新合作模式探索');
-        fitScenes.avoid.push('高风险、高金额采购');
-    }
-    
-    if (dPercent >= 60) {
-        fitScenes.good.push('价格谈判（强硬立场）');
-        fitScenes.good.push('供应商施压');
-        fitScenes.good.push('最后通牒场景');
-        fitScenes.avoid.push('需要委婉的关系维护');
-    }
-    if (dPercent <= 40) {
-        fitScenes.good.push('双赢谈判');
-        fitScenes.good.push('长期协议签署');
-        fitScenes.good.push('影响力驱动的项目');
-        fitScenes.avoid.push('需要强硬立场的对抗性谈判');
-    }
-    
-    // 限制数量，各取前 3-4 个
-    fitScenes.good = fitScenes.good.slice(0, 4);
-    fitScenes.avoid = fitScenes.avoid.slice(0, 3);
-    
-    return fitScenes;
+// 选择风格代码并查询
+function selectPartnerCode(code) {
+    console.log('选择风格代码:', code);
+    document.getElementById('partnerCodeInput').value = code;
+    queryCooperationGuide(code);
 }
+
+// 手动查询
+function queryCooperation() {
+    var partnerCode = document.getElementById('partnerCodeInput').value.trim().toUpperCase();
+    if (!partnerCode || partnerCode.length !== 4) {
+        alert('请输入 4 位风格代码（如 ARCD）');
+        return;
+    }
+    queryCooperationGuide(partnerCode);
+}
+
+// 暴露到全局
+window.renderBestMatchOptimized = renderBestMatchOptimized;
+window.queryCooperationGuide = queryCooperationGuide;
+window.selectPartnerCode = selectPartnerCode;
+window.queryCooperation = queryCooperation;
