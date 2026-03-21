@@ -243,4 +243,3 @@ function selectPartnerCode(code) {
 window.renderBestMatchOptimized = renderBestMatchOptimized;
 window.queryCooperationGuide = queryCooperationGuide;
 window.selectPartnerCode = selectPartnerCode;
-window.queryCooperation = queryCooperation;

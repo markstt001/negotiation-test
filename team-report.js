@@ -15,25 +15,29 @@ const teamReportConfig = {
   ]
 };
 
-// 风格定义
-const styleDefinitions = {
-  ARCD: { name: "战略架构师", animal: "🦉", dimension: "分析 + 关系 + 竞争 + 防御" },
-  ARCP: { name: "战略协调者", animal: "🦉", dimension: "分析 + 关系 + 竞争 + 开拓" },
-  ARBD: { name: "谨慎守护者", animal: "🦉", dimension: "分析 + 关系 + 合作 + 防御" },
-  ARBP: { name: "和谐维系者", animal: "🦉", dimension: "分析 + 关系 + 合作 + 开拓" },
-  ATCD: { name: "精算防御者", animal: "🦅", dimension: "分析 + 任务 + 竞争 + 防御" },
-  ATCP: { name: "理性协商者", animal: "🦅", dimension: "分析 + 任务 + 竞争 + 开拓" },
-  ATBD: { name: "独立判断者", animal: "🦅", dimension: "分析 + 任务 + 合作 + 防御" },
-  ATBP: { name: "务实协调者", animal: "🦅", dimension: "分析 + 任务 + 合作 + 开拓" },
-  IRCD: { name: "创新开拓者", animal: "🦊", dimension: "直觉 + 关系 + 竞争 + 防御" },
-  IRCP: { name: "愿景推动者", animal: "🦊", dimension: "直觉 + 关系 + 竞争 + 开拓" },
-  IRBD: { name: "人脉冒险家", animal: "🦊", dimension: "直觉 + 关系 + 合作 + 防御" },
-  IRBP: { name: "信任 builder", animal: "🦊", dimension: "直觉 + 关系 + 合作 + 开拓" },
-  ITCD: { name: "数据猎手", animal: "🐺", dimension: "直觉 + 任务 + 竞争 + 防御" },
-  ITCP: { name: "果断执行者", animal: "🐺", dimension: "直觉 + 任务 + 竞争 + 开拓" },
-  ITBD: { name: "创新合伙人", animal: "🐺", dimension: "直觉 + 任务 + 合作 + 防御" },
-  ITBP: { name: "愿景推动者", animal: "🐺", dimension: "直觉 + 任务 + 合作 + 开拓" }
-};
+// 风格定义（使用 cooperation-guides.js 中的 styleDefinitions，避免重复声明）
+// 如果 window.styleDefinitions 不存在，则定义备用版本
+if (typeof window.styleDefinitions === 'undefined') {
+  window.styleDefinitions = {
+    ARCD: { name: "战略架构师", animal: "🦉", dimension: "分析 + 关系 + 竞争 + 防御" },
+    ARCP: { name: "战略协调者", animal: "🦉", dimension: "分析 + 关系 + 竞争 + 开拓" },
+    ARBD: { name: "谨慎守护者", animal: "🦉", dimension: "分析 + 关系 + 合作 + 防御" },
+    ARBP: { name: "和谐维系者", animal: "🦉", dimension: "分析 + 关系 + 合作 + 开拓" },
+    ATCD: { name: "精算防御者", animal: "🦅", dimension: "分析 + 任务 + 竞争 + 防御" },
+    ATCP: { name: "理性协商者", animal: "🦅", dimension: "分析 + 任务 + 竞争 + 开拓" },
+    ATBD: { name: "独立判断者", animal: "🦅", dimension: "分析 + 任务 + 合作 + 防御" },
+    ATBP: { name: "务实协调者", animal: "🦅", dimension: "分析 + 任务 + 合作 + 开拓" },
+    IRCD: { name: "创新开拓者", animal: "🦊", dimension: "直觉 + 关系 + 竞争 + 防御" },
+    IRCP: { name: "愿景推动者", animal: "🦊", dimension: "直觉 + 关系 + 竞争 + 开拓" },
+    IRBD: { name: "人脉冒险家", animal: "🦊", dimension: "直觉 + 关系 + 合作 + 防御" },
+    IRBP: { name: "信任 builder", animal: "🦊", dimension: "直觉 + 关系 + 合作 + 开拓" },
+    ITCD: { name: "数据猎手", animal: "🐺", dimension: "直觉 + 任务 + 竞争 + 防御" },
+    ITCP: { name: "果断执行者", animal: "🐺", dimension: "直觉 + 任务 + 竞争 + 开拓" },
+    ITBD: { name: "创新合伙人", animal: "🐺", dimension: "直觉 + 任务 + 合作 + 防御" },
+    ITBP: { name: "愿景推动者", animal: "🐺", dimension: "直觉 + 任务 + 合作 + 开拓" }
+  };
+}
+var styleDefinitions = window.styleDefinitions;
 
 // 生成团队报告
 function generateTeamReport(members) {
