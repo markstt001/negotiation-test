@@ -33,7 +33,7 @@ if (typeof window.styleDefinitions === 'undefined') {
     IRBP: { name: "信任 builder", animal: "🦊", dimension: "直觉 + 关系 + 合作 + 开拓" },
     ITCD: { name: "数据猎手", animal: "🐺", dimension: "直觉 + 任务 + 竞争 + 防御" },
     ITCP: { name: "果断执行者", animal: "🐺", dimension: "直觉 + 任务 + 竞争 + 开拓" },
-    ITBD: { name: "创新合伙人", animal: "🐺", dimension: "直觉 + 任务 + 合作 + 防御" },
+    ITBD: { name: "谨慎守护者", animal: "🐺", dimension: "直觉 + 任务 + 合作 + 防御" },
     ITBP: { name: "愿景推动者", animal: "🐺", dimension: "直觉 + 任务 + 合作 + 开拓" }
   };
 }
