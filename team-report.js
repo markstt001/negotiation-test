@@ -37,7 +37,6 @@ if (typeof window.styleDefinitions === 'undefined') {
     ITBP: { name: "愿景推动者", animal: "🐺", dimension: "直觉 + 任务 + 合作 + 开拓" }
   };
 }
-var styleDefinitions = window.styleDefinitions;
 
 // 生成团队报告
 function generateTeamReport(members) {
