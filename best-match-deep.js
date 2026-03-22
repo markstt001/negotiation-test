@@ -332,6 +332,12 @@ const bestMatchDeep = {
   }
 };
 
+// 获取最佳搭档数据
+function getBestMatchDeep(code) {
+    return bestMatchDeep[code] || null;
+}
+
 // 暴露到全局
 window.bestMatchDeep = bestMatchDeep;
+window.getBestMatchDeep = getBestMatchDeep;
 console.log('✅ 最佳搭档深度解读已加载（情感化叙事版）');
