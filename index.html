@@ -398,14 +398,6 @@
                     </div>
                 </div>
                 
-                <!-- 我的测试结果 -->
-                <div class="card">
-                    <div class="card-header">
-                        <div class="card-title">📊 测试结果</div>
-                    </div>
-                    <div class="card-body" id="myResult"></div>
-                </div>
-                
                 <!-- 我的团队 -->
                 <div class="card">
                     <div class="card-header">
@@ -919,13 +911,9 @@
                     // 显示快速功能入口
                     document.getElementById('quickActions').style.display = 'block';
                 }
-                
-                // 更新测试结果卡片
-                document.getElementById('myResult').innerHTML = '<div style="font-size:50px;text-align:center;margin:25px 0;">' + style.animal + '</div><div style="text-align:center;font-size:28px;font-weight:700;color:#fff;">' + r.code + '</div><div style="text-align:center;color:#86868b;font-size:16px;">' + style.name + '</div><div style="text-align:center;color:#cccccc;font-size:14px;margin-top:10px;">' + style.role + '</div>';
             } else {
                 document.getElementById('profileCard').style.display = 'none';
                 document.getElementById('quickActions').style.display = 'none';
-                document.getElementById('myResult').innerHTML = '<div style="text-align:center;color:#86868b;padding:40px;">暂无测试结果<br><span style="font-size:13px;">完成测试后查看你的谈判风格画像</span></div>';
             }
             
             var savedTeam = localStorage.getItem('currentTeam');
