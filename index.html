@@ -410,15 +410,15 @@
                         <div style="text-align: center; padding: 20px;">
                             <div style="font-size: 48px; margin-bottom: 12px;">👥</div>
                             <div style="font-size: 14px; color: #86868b; margin-bottom: 16px;">暂无团队信息</div>
-                            <button class="partner-btn" onclick="quickDemoTeam()" style="margin-bottom: 8px;">
+                            <button class="partner-btn" onclick="(function(){var t={name:'示例团队 - 采购精英队',inviteCode:'DEMO'+Math.floor(Math.random()*10000),members:[{name:'张三',code:'ARCD'},{name:'李四',code:'ITCP'},{name:'王五',code:'ARBP'},{name:'赵六',code:'ATCD'},{name:'钱七',code:'IRCD'}]};localStorage.setItem('currentTeam',JSON.stringify(t));alert('✅ 已生成 5 人示例团队！');if(typeof updateMyTeamInfo==='function')updateMyTeamInfo();})()" style="margin-bottom: 8px;">
                                 🎯 快速体验
                                 <span>生成 5 人示例团队</span>
                             </button>
-                            <button class="partner-btn" onclick="goToTeamDashboard()" style="margin-bottom: 8px;">
+                            <button class="partner-btn" onclick="alert('请先点击快速体验生成团队，然后刷新页面再点击此按钮');if(typeof goToTeamDashboard==='function')goToTeamDashboard();" style="margin-bottom: 8px;">
                                 📊 查看仪表盘
                                 <span>进入团队管理页面</span>
                             </button>
-                            <button class="partner-btn" onclick="clearTeamData()" style="border-color: #ef4444; color: #ef4444;">
+                            <button class="partner-btn" onclick="(function(){if(confirm('确定清除团队数据？')){localStorage.removeItem('currentTeam');alert('已清除');location.reload();}})" style="border-color: #ef4444; color: #ef4444;">
                                 🗑️ 清除数据
                                 <span>删除团队信息</span>
                             </button>
@@ -432,7 +432,7 @@
                         <div class="card-title">🔧 团队数据调试</div>
                     </div>
                     <div class="card-body">
-                        <button class="partner-btn" onclick="showTeamDebugInfo()" style="width: 100%; margin-bottom: 12px;">
+                        <button class="partner-btn" onclick="(function(){var t=localStorage.getItem('currentTeam');var e=document.getElementById('teamDebugInfo');if(!e)return;if(!t){e.style.display='block';e.textContent='暂无团队数据';return;}try{var d=JSON.parse(t);e.style.display='block';e.textContent='团队：'+d.name+'\\n成员：'+(d.members?d.members.length:0)+'人\\n邀请码：'+(d.inviteCode||'N/A');}catch(err){e.style.display='block';e.textContent='错误：'+err.message;}})" style="width: 100%; margin-bottom: 12px;">
                             📋 查看当前团队数据
                             <span>显示 localStorage 中的团队信息</span>
                         </button>
@@ -526,7 +526,7 @@
     <script src="best-match-deep.js?v=202603221745"></script>
     <script src="cooperation-guides.js?v=202603221745"></script>
     <script src="team-report.js?v=202603221745"></script>
-    <script src="team-dashboard.js?v=202603281015"></script>
+    <script src="team-dashboard.js?v=202603281035"></script>
     <script src="result-enhanced.js?v=202603281015"></script>
     <script>
         var currentIndex = 0;
