@@ -343,11 +343,9 @@
                 <!-- 团队功能 -->
                 <div class="team-section" id="teamSection" style="display: block !important;">
                     <div class="team-title">👥 团队功能</div>
-                    <button class="team-btn" onclick="goToTeamDashboard()">📊 团队仪表盘</button>
-                    <button class="team-btn" onclick="quickDemoTeam()" style="border-color:#10b981;color:#10b981;">🎯 快速体验</button>
-                    <button class="team-btn" onclick="showJoinTeamModal()">加入团队</button>
-                    <button class="team-btn" onclick="createTeamFromResult()">创建团队</button>
-                    <button class="team-btn" onclick="showTeamReportModal()" style="border-color:#0071e3;color:#0071e3;">📑 团队配置报告</button>
+                    <div id="teamButtons">
+                        <!-- 动态渲染按钮 -->
+                    </div>
                 </div>
                 
                 <button class="btn-action btn-secondary" onclick="retakeTest()" style="margin-top: 24px;">重新测试</button>
@@ -703,6 +701,9 @@
             
             document.getElementById('mbtiInsight').textContent = interpretation.mbti;
             
+            // 渲染团队功能按钮
+            renderTeamButtons();
+            
             // 最佳搭档 - 使用优化版本
             if (typeof renderBestMatchOptimized === 'function') {
                 renderBestMatchOptimized(code);
@@ -867,6 +868,27 @@
             document.getElementById('resultPage').classList.add('hidden');
             document.getElementById('homePage').classList.remove('hidden');
             document.getElementById('bottomNav').classList.remove('hidden');
+        }
+        
+        // 渲染团队功能按钮
+        function renderTeamButtons() {
+            var container = document.getElementById('teamButtons');
+            if (!container) return;
+            
+            var savedTeam = localStorage.getItem('currentTeam');
+            var hasTeam = savedTeam && JSON.parse(savedTeam).members && JSON.parse(savedTeam).members.length > 0;
+            
+            var html = '';
+            if (hasTeam) {
+                // 有团队：显示加入团队 + 团队报告
+                html += '<button class="team-btn" onclick="showJoinTeamModal()">加入团队</button>';
+                html += '<button class="team-btn" onclick="showTeamReportModal()" style="border-color:#0071e3;color:#0071e3;">📑 团队报告</button>';
+            } else {
+                // 无团队：显示加入团队 + 创建团队
+                html += '<button class="team-btn" onclick="showJoinTeamModal()">加入团队</button>';
+                html += '<button class="team-btn" onclick="createTeamFromResult()">创建团队</button>';
+            }
+            container.innerHTML = html;
         }
         
         function goHome() {
