@@ -745,8 +745,62 @@ function updateMyTeamInfo() {
                 </button>
             </div>
         `;
-        return;
+    } else {
+        try {
+            var team = JSON.parse(savedTeam);
+            var members = team.members || [];
+            var testedCount = members.filter(m => m.code).length;
+            
+            myTeamEl.innerHTML = `
+                <div style="padding: 16px;">
+                    <div style="font-size: 16px; font-weight: 700; color: #fff; margin-bottom: 12px;">${escapeHtml(team.name)}</div>
+                    <div style="font-size: 13px; color: #86868b; margin-bottom: 16px;">邀请码：${team.inviteCode || 'N/A'}</div>
+                    
+                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 16px;">
+                        <div style="background: rgba(44,83,100,0.3); padding: 12px; border-radius: 8px; text-align: center;">
+                            <div style="font-size: 20px; font-weight: 800; color: #d4af37;">${members.length}</div>
+                            <div style="font-size: 10px; color: #86868b;">总人数</div>
+                        </div>
+                        <div style="background: rgba(16,185,129,0.2); padding: 12px; border-radius: 8px; text-align: center;">
+                            <div style="font-size: 20px; font-weight: 800; color: #10b981;">${testedCount}</div>
+                            <div style="font-size: 10px; color: #86868b;">已测试</div>
+                        </div>
+                        <div style="background: rgba(245,158,11,0.2); padding: 12px; border-radius: 8px; text-align: center;">
+                            <div style="font-size: 20px; font-weight: 800; color: #f59e0b;">${members.length - testedCount}</div>
+                            <div style="font-size: 10px; color: #86868b;">待测试</div>
+                        </div>
+                    </div>
+                    
+                    <div style="margin-bottom: 12px;">
+                        <div style="font-size: 12px; color: #86868b; margin-bottom: 8px;">成员列表</div>
+                        ${members.map(m => `
+                            <div style="display: flex; align-items: center; padding: 8px; background: rgba(44,83,100,0.2); border-radius: 6px; margin-bottom: 6px;">
+                                <div style="width: 28px; height: 28px; border-radius: 50%; background: linear-gradient(135deg, #2c5364, #d4af37); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; color: #0f2027; margin-right: 10px;">
+                                    ${m.name ? m.name.charAt(0) : '?'}
+                                </div>
+                                <div style="flex: 1;">
+                                    <div style="font-size: 13px; font-weight: 600; color: #fff;">${escapeHtml(m.name)}</div>
+                                    <div style="font-size: 11px; color: #86868b;">${m.code || '未测试'} ${m.code ? '· ' + getStyleName(m.code) : ''}</div>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                    
+                    <button class="partner-btn" onclick="goToTeamDashboard()" style="width: 100%; margin-bottom: 8px;">
+                        📊 进入仪表盘
+                        <span>查看完整团队分析</span>
+                    </button>
+                    <button class="partner-btn" onclick="clearTeamData()" style="width: 100%; border-color: #ef4444; color: #ef4444;">
+                        🗑️ 清除数据
+                        <span>删除团队信息</span>
+                    </button>
+                </div>
+            `;
+        } catch (e) {
+            myTeamEl.innerHTML = '<div style="padding: 20px; text-align: center; color: #ef4444;">数据加载失败：' + e.message + '</div>';
+        }
     }
+}
     
     try {
         var team = JSON.parse(savedTeam);
