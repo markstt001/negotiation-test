@@ -172,9 +172,9 @@ function renderCourses(styleCode) {
   for (var i = 0; i < topCourses.length; i++) {
     var course = topCourses[i].course;
     html += '<div onclick="window.open(\'' + course.url + '\', \'_blank\')" style="background:rgba(44,83,100,0.3);padding:16px;border-radius:10px;margin-bottom:14px;cursor:pointer;border:1px solid rgba(212,175,55,0.3);transition:all 0.3s;" onmouseover="this.style.background=\'rgba(44,83,100,0.5)\'" onmouseout="this.style.background=\'rgba(44,83,100,0.3)\'">';
-    html += '<div style="font-size:15px;font-weight:700;color:#fff;margin-bottom:8px;">' + course.name + '</div>';
-    html += '<div style="font-size:12px;color:#86868b;margin-bottom:10px;">👨‍🏫 ' + course.teacher + '</div>';
-    html += '<div style="font-size:12px;color:#cccccc;margin-bottom:12px;line-height:1.6;">✅ ' + course.matchReason + '</div>';
+    html += '<div style="font-size:15px;font-weight:700;color:#fff;margin-bottom:6px;">' + course.name + '</div>';
+    html += '<div style="font-size:12px;color:#86868b;margin-bottom:8px;">👨‍🏫 ' + course.teacher + '</div>';
+    html += '<div style="font-size:12px;color:#cccccc;margin-bottom:10px;line-height:1.6;">✅ ' + course.matchReason + '</div>';
     html += '<div style="font-size:13px;color:#d4af37;font-weight:600;">' + course.cta + ' ›</div>';
     html += '</div>';
   }
