@@ -660,11 +660,14 @@
             currentUserResult = { code: code, style: style };
             localStorage.setItem('myTestResult', JSON.stringify(currentUserResult));
             
-            // 保存到测试历史
-            var history = JSON.parse(localStorage.getItem('testHistory') || '[]');
-            history.unshift({ code: code, style: { animal: style.animal, name: style.name, nickname: style.nickname }, timestamp: Date.now() });
-            if (history.length > 10) history = history.slice(0, 10); // 只保留最近 10 次
-            localStorage.setItem('testHistory', JSON.stringify(history));
+            // 保存到测试历史（查看历史时不保存新记录）
+            if (!window.isViewingHistory) {
+                var history = JSON.parse(localStorage.getItem('testHistory') || '[]');
+                history.unshift({ code: code, style: { animal: style.animal, name: style.name, nickname: style.nickname }, timestamp: Date.now() });
+                if (history.length > 10) history = history.slice(0, 10); // 只保留最近 10 次
+                localStorage.setItem('testHistory', JSON.stringify(history));
+            }
+            window.isViewingHistory = false; // 重置标志
             
             document.getElementById('resultAnimal').textContent = style.animal;
             document.getElementById('resultCode').textContent = code;
@@ -673,6 +676,12 @@
             
             // 渲染稀缺性表达
             renderRarityExpression(code, style);
+            
+            // 查看历史时隐藏团队板块
+            if (window.isViewingHistory) {
+                var teamSection = document.getElementById('teamSection');
+                if (teamSection) teamSection.style.display = 'none';
+            }
             
             document.getElementById('mbtiInsight').textContent = interpretation.mbti;
             
@@ -848,6 +857,11 @@
             document.getElementById('resultPage').classList.add('hidden');
             document.getElementById('myPage').classList.add('hidden');
             document.getElementById('bottomNav').classList.remove('hidden');
+            // 显示团队板块（如果之前隐藏了）
+            var teamSection = document.getElementById('teamSection');
+            if (teamSection) teamSection.style.display = 'block';
+            // 重置标志
+            window.isViewingHistory = false;
         }
         
         // 渲染稀缺性表达（4 种组合）
@@ -991,8 +1005,12 @@
             document.getElementById('homePage').classList.add('hidden');
             document.getElementById('myPage').classList.add('hidden');
             document.getElementById('bottomNav').classList.add('hidden');
+            // 标记为查看历史，不保存新记录
+            window.isViewingHistory = true;
             // 直接调用 showResult 显示结果页
             showResult(code);
+            // 滚动到顶部
+            window.scrollTo(0, 0);
         }
         
         // 查看合作指南
