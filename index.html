@@ -352,6 +352,8 @@
                 </div>
                 
                 <button class="btn-action btn-secondary" onclick="retakeTest()" style="margin-top: 24px;">重新测试</button>
+                <!-- 查看历史时的返回按钮 -->
+                <button id="historyBackBtn" class="btn-action" onclick="goToMyPage()" style="margin-top: 16px; display: none; background: linear-gradient(135deg, #2c5364, #d4af37); color: #0f2027; border: none;">← 返回</button>
             </div>
         </div>
         
@@ -663,6 +665,16 @@
                 localStorage.setItem('myTestResult', JSON.stringify(currentUserResult));
             }
             
+            // 查看历史时隐藏团队板块，显示返回按钮
+            var teamSection = document.getElementById('teamSection');
+            if (teamSection) {
+                teamSection.style.display = window.isViewingHistory ? 'none' : 'block';
+            }
+            var backBtn = document.getElementById('historyBackBtn');
+            if (backBtn) {
+                backBtn.style.display = window.isViewingHistory ? 'block' : 'none';
+            }
+            
             // 保存到测试历史（查看历史时不保存新记录）
             if (!window.isViewingHistory) {
                 var history = JSON.parse(localStorage.getItem('testHistory') || '[]');
@@ -687,6 +699,8 @@
                 // 隐藏底部导航的团队入口（如果有）
                 var teamNav = document.querySelector('.team-nav-item');
                 if (teamNav) teamNav.style.display = 'none';
+                // 滚动到顶部
+                setTimeout(function() { window.scrollTo(0, 0); }, 100);
             }
             
             document.getElementById('mbtiInsight').textContent = interpretation.mbti;
