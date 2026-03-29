@@ -149,17 +149,10 @@ function generateCourseHTML(courses, isTeamReport) {
 function renderCourses(styleCode, containerId, cardId) {
   // 延迟执行，确保其他渲染已完成
   setTimeout(function() {
-    console.log('renderCourses 开始执行，styleCode:', styleCode);
-    
     var container = document.getElementById(containerId || 'courseRecommendation');
-    console.log('container:', container);
-    if (!container) {
-      console.log('未找到课程推荐容器');
-      return;
-    }
+    if (!container) return;
     
     var matched = getMatchedCourses(styleCode);
-    console.log('匹配的课程数量:', matched.length);
     if (matched.length === 0) return;
     
     var topCourses = matched.slice(0, 2);
@@ -179,8 +172,6 @@ function renderCourses(styleCode, containerId, cardId) {
     
     html += '</div>';
     container.innerHTML = html;
-    console.log('课程推荐已渲染到页面');
-    console.log('container.innerHTML:', container.innerHTML.substring(0, 100));
     
     // 确保容器可见
     container.style.display = 'block';
@@ -192,14 +183,6 @@ function renderCourses(styleCode, containerId, cardId) {
     if (courseCard) {
       courseCard.style.display = 'block';
       courseCard.classList.remove('hidden');
-      console.log('课程卡片已显示');
-    }
-    
-    // 检查父容器
-    var parent = container.parentElement;
-    if (parent) {
-      parent.style.display = 'block';
-      console.log('父容器:', parent.className, 'display:', parent.style.display);
     }
   }, 500);
 }
@@ -210,5 +193,3 @@ window.getMatchedCourses = getMatchedCourses;
 window.getTeamCourses = getTeamCourses;
 window.generateCourseHTML = generateCourseHTML;
 window.renderCourses = renderCourses;
-
-console.log('✅ 课程匹配系统已加载');

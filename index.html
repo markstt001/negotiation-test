@@ -553,26 +553,18 @@
         
         function selectOption(el, dim) {
             // 防止重复提交
-            if (isSubmitting) {
-                console.log('⚠️ 正在处理，忽略重复点击');
-                return;
-            }
+            if (isSubmitting) return;
             isSubmitting = true;
             
-            console.log('--- 第', currentIndex + 1, '题 ---');
-            console.log('选择维度:', dim);
             var options = document.querySelectorAll('.option');
             options.forEach(function(o) { o.classList.remove('selected'); });
             el.classList.add('selected');
             // 如果这题之前选过，先扣除之前的分数
             if (answers[currentIndex]) {
-                console.log('修改答案：扣除', answers[currentIndex], '的分数');
                 dimensionScores[answers[currentIndex]]--;
             }
             answers[currentIndex] = dim;
             dimensionScores[dim]++;
-            console.log('当前计分:', JSON.stringify(dimensionScores));
-            console.log('总分:', Object.values(dimensionScores).reduce(function(a,b){return a+b}, 0));
             setTimeout(function() {
                 isSubmitting = false;
                 if (currentIndex < 27) {
@@ -623,19 +615,11 @@
         }
         
         function calculateResult() {
-            console.log('=== 测试完成 ===');
-            console.log('dimensionScores:', JSON.stringify(dimensionScores));
-            console.log('A vs I:', dimensionScores.A, 'vs', dimensionScores.I, '→', dimensionScores.A >= dimensionScores.I ? 'A' : 'I');
-            console.log('R vs T:', dimensionScores.R, 'vs', dimensionScores.T, '→', dimensionScores.R >= dimensionScores.T ? 'R' : 'T');
-            console.log('C vs B:', dimensionScores.C, 'vs', dimensionScores.B, '→', dimensionScores.C >= dimensionScores.B ? 'C' : 'B');
-            console.log('D vs P:', dimensionScores.D, 'vs', dimensionScores.P, '→', dimensionScores.D >= dimensionScores.P ? 'D' : 'P');
             var code = '';
             code += dimensionScores.A >= dimensionScores.I ? 'A' : 'I';
             code += dimensionScores.R >= dimensionScores.T ? 'R' : 'T';
             code += dimensionScores.C >= dimensionScores.B ? 'C' : 'B';
             code += dimensionScores.D >= dimensionScores.P ? 'D' : 'P';
-            console.log('最终 code:', code);
-            console.log('对应风格:', styles[code]);
             showResult(code);
         }
         
@@ -697,7 +681,6 @@
             renderTeamButtons();
             
             // 渲染推荐课程（结果页）
-            console.log('准备渲染课程推荐，code:', code);
             renderCourses(code, 'courseRecommendation', 'courseCard');
             
             // 最佳搭档 - 使用优化版本
@@ -753,7 +736,6 @@
             // 确保 currentResult 在全局可访问（供 result-enhanced.js 使用）
             window.currentResult = currentResult;
             window.currentUserResult = currentUserResult;
-            console.log('currentResult 已设置到全局:', window.currentResult);
         }
         
         function generatePoster() {
@@ -950,7 +932,6 @@
                         currentUserResult = r;
                         window.currentResult = r;
                         window.currentUserResult = r;
-                        console.log('从 localStorage 恢复 currentResult:', r);
                     }
                 } catch(e) {
                     console.error('解析 myTestResult 失败:', e);
@@ -1371,7 +1352,6 @@
         }
         
         window.onload = function() {
-            console.log('测试已加载');
             var savedTeam = localStorage.getItem('currentTeam');
             if (savedTeam) currentTeam = JSON.parse(savedTeam);
             
