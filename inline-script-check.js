@@ -108,19 +108,19 @@ function retakeTest() {
 }
 
 function updateProgress() {
-    var pct = ((currentIndex + 1) / 28) * 100;
+    var pct = ((currentIndex + 1) / 44) * 100;
     var progressBar = document.getElementById('progressBar');
     progressBar.style.width = pct + '%';
-    if ((currentIndex + 1) % 7 === 1 && currentIndex > 0) {
+    if ((currentIndex + 1) % 11 === 1 && currentIndex > 0) {
         progressBar.classList.add('milestone');
     }
-    var stage = Math.floor(currentIndex / 7) + 1;
-    document.getElementById('progressText').innerHTML = '<strong>' + (currentIndex + 1) + '</strong> / 28 · 第 ' + stage + ' 阶段/共 4 阶段';
+    var stage = Math.floor(currentIndex / 11) + 1;
+    document.getElementById('progressText').innerHTML = '<strong>' + (currentIndex + 1) + '</strong> / 44 · 第 ' + stage + ' 阶段/共 4 阶段';
 }
 
 function updateNav() {
     document.getElementById('prevBtn').disabled = currentIndex === 0;
-    document.getElementById('nextBtn').innerHTML = currentIndex === 27 ? '查看结果 →' : '下一题 →';
+    document.getElementById('nextBtn').innerHTML = currentIndex === 43 ? '查看结果 →' : '下一题 →';
 }
 
 function clearAllData() {
@@ -165,7 +165,7 @@ function selectOption(el, dim) {
     answers[currentIndex] = dim;
     dimensionScores[dim]++;
     setTimeout(function() {
-        if (currentIndex < 27) {
+        if (currentIndex < 43) {
             currentIndex++;
             renderQuestion();
             updateProgress();

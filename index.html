@@ -180,7 +180,7 @@
                 <p class="hero-subtitle">发现你的谈判基因</p>
                 <div class="hero-stats">
                     <div class="hero-stat">
-                        <span class="hero-stat-num">28</span>
+                        <span class="hero-stat-num">44</span>
                         <span class="hero-stat-label">场景题</span>
                     </div>
                     <div class="hero-stat">
@@ -589,7 +589,7 @@
         
         function nextQuestion() {
             if (answers[currentIndex]) {
-                if (currentIndex < 27) {
+                if (currentIndex < 43) {
                     currentIndex++;
                     renderQuestion();
                     updateProgress();
@@ -603,15 +603,15 @@
         }
         
         function updateProgress() {
-            var pct = ((currentIndex + 1) / 28) * 100;
+            var pct = ((currentIndex + 1) / 44) * 100;
             document.getElementById('progressBar').style.width = pct + '%';
-            var stage = Math.floor(currentIndex / 7) + 1;
-            document.getElementById('progressText').textContent = '第 ' + (currentIndex + 1) + ' / 28 题 · 第 ' + stage + ' 阶段';
+            var stage = Math.floor(currentIndex / 11) + 1;
+            document.getElementById('progressText').textContent = '第 ' + (currentIndex + 1) + ' / 44 题 · 第 ' + stage + ' 阶段';
         }
         
         function updateNav() {
             document.getElementById('prevBtn').disabled = currentIndex === 0;
-            document.getElementById('nextBtn').innerHTML = currentIndex === 27 ? '查看结果' : '下一题';
+            document.getElementById('nextBtn').innerHTML = currentIndex === 43 ? '查看结果' : '下一题';
         }
         
         function calculateResult() {
