@@ -131,78 +131,37 @@ function generateTeamReport(members) {
     });
   }
   
-  // 分析盲点（对标16种全面风格，单边不足即触发风险）
+  // 分析盲点
   var blindspots = [];
-  
-  // 分析型不足
-  if (dimensions.A < 2) {
+  if (dimensions.A < 2 && dimensions.I < 2) {
     blindspots.push({
-      title: "分析型成员不足",
+      title: "缺少数据分析者",
       desc: "团队中分析型（A）成员较少，可能在做决策时缺乏充分的数据支撑",
       risk: "容易凭感觉或经验决策，可能忽略关键数据"
     });
   }
   
-  // 关系型不足
-  if (dimensions.R < 2) {
+  if (dimensions.R < 2 && dimensions.T < 2) {
     blindspots.push({
-      title: "关系型成员不足",
+      title: "缺少关系维护者",
       desc: "团队中关系导向（R）成员较少，可能忽略供应商关系和内部协调",
       risk: "容易把关系搞僵，影响长期合作"
     });
   }
   
-  // 竞争型不足
-  if (dimensions.C < 2) {
+  if (dimensions.C < 2 && dimensions.B < 2) {
     blindspots.push({
-      title: "竞争型成员不足",
+      title: "缺少竞争意识",
       desc: "团队中竞争型（C）成员较少，可能在谈判中过于妥协",
       risk: "容易吃亏，无法争取最大利益"
     });
   }
   
-  // 合作型不足
-  if (dimensions.B < 2) {
+  if (dimensions.D < 2 && dimensions.P < 2) {
     blindspots.push({
-      title: "合作型成员不足",
-      desc: "团队中合作型（B）成员较少，可能在谈判中过于强势，忽略长期合作关系",
-      risk: "容易破坏供应商关系，影响长期合作和信任建立"
-    });
-  }
-  
-  // 防御型不足
-  if (dimensions.D < 2) {
-    blindspots.push({
-      title: "防御型成员不足",
+      title: "缺少风险控制者",
       desc: "团队中防御型（D）成员较少，可能过于冒进",
       risk: "容易踩坑，忽略潜在风险"
-    });
-  }
-  
-  // 开拓型不足
-  if (dimensions.P < 2) {
-    blindspots.push({
-      title: "开拓型成员不足",
-      desc: "团队中开拓型（P）成员较少，可能过于保守，错失机会",
-      risk: "容易错失市场窗口，创新不足"
-    });
-  }
-  
-  // 直觉型不足
-  if (dimensions.I < 2) {
-    blindspots.push({
-      title: "直觉型成员不足",
-      desc: "团队中直觉型（I）成员较少，可能缺乏创新思维和市场洞察",
-      risk: "容易过度依赖数据，忽略非量化机会"
-    });
-  }
-  
-  // 任务型不足
-  if (dimensions.T < 2) {
-    blindspots.push({
-      title: "任务型成员不足",
-      desc: "团队中任务导向（T）成员较少，可能影响执行效率和目标达成",
-      risk: "容易过度关注关系而忽略结果"
     });
   }
   
@@ -268,95 +227,50 @@ function generateTeamReport(members) {
     }
   }
   
-  // 未配对的成员（补充最佳拍档建议）
+  // 未配对的成员
   var unpaired = [];
   for (var i = 0; i < members.length; i++) {
     if (!used[i]) {
-      unpaired.push({
-        member: members[i],
-        idealMatch: bestMatches[members[i].code],
-        reason: findClosestMatch(members[i], members, used, bestMatches)
-      });
+      unpaired.push(members[i]);
     }
   }
   
-  // 辅助函数：为未配对成员找最近似的合作建议
-  function findClosestMatch(member, allMembers, usedMap, matchTable) {
-    var ideal = matchTable[member.code];
-    var bestComp = 0;
-    var bestName = '';
-    var bestCode = '';
-    for (var k = 0; k < allMembers.length; k++) {
-      if (usedMap[k]) continue;
-      if (allMembers[k].name === member.name) continue;
-      var comp = 0;
-      if (member.code[0] !== allMembers[k].code[0]) comp++;
-      if (member.code[1] !== allMembers[k].code[1]) comp++;
-      if (member.code[2] !== allMembers[k].code[2]) comp++;
-      if (member.code[3] !== allMembers[k].code[3]) comp++;
-      if (comp > bestComp) {
-        bestComp = comp;
-        bestName = allMembers[k].name;
-        bestCode = allMembers[k].code;
-      }
-    }
-    return {
-      idealStyle: ideal,
-      idealMissing: true,
-      closestName: bestName,
-      closestCode: bestCode,
-      closestComp: bestComp
-    };
-  }
-  
-  // 招聘建议（对标16种全面风格，缺少的维度即为招聘方向）
+  // 招聘建议
   var hiringSuggestions = [];
-  if (dimensions.A < 2) {
+  if (dimensions.A < dimensions.I) {
     hiringSuggestions.push("建议招聘分析型（A）人才，增强数据分析能力");
   }
-  if (dimensions.I < 2) {
-    hiringSuggestions.push("建议招聘直觉型（I）人才，增强创新洞察能力");
-  }
-  if (dimensions.R < 2) {
+  if (dimensions.R < dimensions.T) {
     hiringSuggestions.push("建议招聘关系导向（R）人才，增强关系维护能力");
   }
-  if (dimensions.T < 2) {
-    hiringSuggestions.push("建议招聘任务导向（T）人才，增强执行效率");
-  }
-  if (dimensions.C < 2) {
+  if (dimensions.C < dimensions.B) {
     hiringSuggestions.push("建议招聘竞争型（C）人才，增强谈判竞争力");
   }
-  if (dimensions.B < 2) {
-    hiringSuggestions.push("建议招聘合作型（B）人才，增强合作共赢意识");
-  }
-  if (dimensions.D < 2) {
+  if (dimensions.D < dimensions.P) {
     hiringSuggestions.push("建议招聘防御型（D）人才，增强风险控制能力");
-  }
-  if (dimensions.P < 2) {
-    hiringSuggestions.push("建议招聘开拓型（P）人才，增强创新开拓能力");
   }
   
   if (hiringSuggestions.length === 0) {
-    hiringSuggestions.push("团队各维度覆盖良好，暂无明显短板");
+    hiringSuggestions.push("团队配置均衡，暂无明显短板");
   }
   
-  // 培训建议（对标全面风格，弱势维度需要补强）
+  // 培训建议
   var trainingSuggestions = [];
-  if (dimensions.I < dimensions.A) {
-    trainingSuggestions.push("建议分析型成员补充创新思维和直觉判断训练");
+  if (dimensions.A > dimensions.I && dimensions.I === 0) {
+    trainingSuggestions.push("建议分析型成员学习创新思维和直觉判断");
   }
-  if (dimensions.T < dimensions.R) {
-    trainingSuggestions.push("建议关系型成员补充任务管理和执行效率训练");
+  if (dimensions.R > dimensions.T && dimensions.T === 0) {
+    trainingSuggestions.push("建议关系型成员学习任务管理和执行效率");
   }
-  if (dimensions.B < dimensions.C) {
-    trainingSuggestions.push("建议竞争型成员补充合作共赢思维和长期关系建设");
+  if (dimensions.C > dimensions.B && dimensions.B === 0) {
+    trainingSuggestions.push("建议竞争型成员学习合作共赢思维");
   }
-  if (dimensions.P < dimensions.D) {
-    trainingSuggestions.push("建议防御型成员补充风险承担和创新尝试训练");
+  if (dimensions.D > dimensions.P && dimensions.P === 0) {
+    trainingSuggestions.push("建议防御型成员学习风险承担和创新尝试");
   }
   
   if (trainingSuggestions.length === 0) {
-    trainingSuggestions.push("团队各维度发展均衡，建议持续学习和提升");
+    trainingSuggestions.push("团队能力全面，建议持续学习和提升");
   }
   
   // 课程推荐
